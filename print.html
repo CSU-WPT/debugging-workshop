@@ -1,0 +1,460 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>The CPT&#x27;s Debugging Workshop</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-062ccf00.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-b19f64b8.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The CPT&#x27;s Debugging Workshop</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+<p>This book is written for less experienced Computer Science students who are interested in learning more about tools that are commonly used in the industry. And, among those commonly used tools, two stand out because of the sheer scale of their adoption: Linux and git.</p>
+<p>Because of their adoption, essentially ever developer (unless they are working on a legacy code base) will use these technologies on a daily basis. For this reason, and because knowledge of Linux is required for upper level classes at the Washkewicz College of Engineering at CSU (like C Programming and Operating Systems), we, the <a href="https://engineering.csuohio.edu/advising/computer-peer-teachers-cpts">Computer Peer Teachers (CPTs)</a>, have decided to offer a short introductory workshop on both of these topics. This is the accompanying book for that workshop.</p>
+<p>During this workshop, we seek to answer the following questions for Linux:</p>
+<ul>
+<li><a href="#what-is-linux">What is Linux?</a></li>
+<li><a href="#what-is-a-linux-distribution">What is a Linux distribution (“distro”)?</a></li>
+<li><a href="#what-is-a-desktop-environment">What is a Desktop Environment?</a></li>
+<li><a href="#why-should-i-care-about-linux">Why should I care about Linux?</a></li>
+<li><a href="#how-to-install-linux">How do you install popular Linux distros like Ubuntu, Debian, Mint, Fedora, and others?</a></li>
+<li><a href="ch1.2-linux-terminal.html">How to use the terminal</a></li>
+</ul>
+<p>And for git:</p>
+<ul>
+<li><a href="ch2-git.html">What is git?</a></li>
+<li><a href="ch2-git.html#use-cases">Why is it important? What are the use cases?</a></li>
+<li><a href="ch2.1-git-installation.html">How do you install git (on Windows, MasOS, and Linux)?</a></li>
+<li><a href="ch2.2-using-git.html">How do you use git from the terminal?</a></li>
+<li>Git in VSCode</li>
+</ul>
+<h3 id="linux-workshop-recording"><a class="header" href="#linux-workshop-recording">Linux Workshop Recording</a></h3>
+<iframe width="560" height="315" src="https://youtube.com/embed/CYBsi1-lU3A?si=ko6ESG8D9nKWqd4Z" title="Linux Workshop" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="what-is-linux"><a class="header" href="#what-is-linux">What is Linux?</a></h1>
+<p>Linux, or (more technically) GNU/Linux, is an open source operating system (or family of operating systems) created by Linus Torvalds in 1991. It has two main parts: the linux kernel, which interacts with the hardware, manages memory and processes, and does many other low-level tasks, and the user-land programs, which run on top of the kernel. User-land programs are supported by a set of system libraries. The most popular set of system libraries is the GNU C Library (hence the name GNU/Linux).</p>
+<p>More info: <a href="https://en.wikipedia.org/wiki/Linux">https://en.wikipedia.org/wiki/Linux</a></p>
+<p>However, you need more than just the kernel and set of system libraries to create a useful operating system setup. This is where Linux distributions comes in.</p>
+<h2 id="what-is-a-linux-distribution"><a class="header" href="#what-is-a-linux-distribution">What is a Linux distribution?</a></h2>
+<p>A Linux distribution (or “distro”) is a collection of software that is bundled with the linux kernel (and often the GNU C Library) in order to provide a more complete operating system experience. This software bundle almost always include a package manager and a shell, and sometimes includes a graphical user interface (GUI). These distros are also characterized by how often they are updated. Some distros focus on stability, releasing twice a year, while others focus on the latest features, releasing ever one or two months (with package managers that update packages as often as possible).</p>
+<p>There are many different operating systems for many different purposes, but some of the most popular ones are:</p>
+<ul>
+<li><a href="https://ubuntu.com/">Ubuntu</a>
+<ul>
+<li>One of the most popular Linux distributions</li>
+<li>Focused on stability, with updates every 6 months</li>
+<li>Based on Debian</li>
+</ul>
+</li>
+<li><a href="https://www.debian.org/">Debian</a>
+<ul>
+<li>Another very popular Linux distribution</li>
+<li>Uses the Debian package manager and Apt</li>
+</ul>
+</li>
+<li><a href="https://getfedora.org/">Fedora</a></li>
+<li><a href="https://linuxmint.com/">Mint</a></li>
+<li><a href="https://archlinux.org/">Arch</a>
+<ul>
+<li>One of the most popular rolling-release Linux distribution</li>
+<li>Uses the pacman package manager</li>
+<li>For more advanced users, since it doesn’t come with default desktop environment</li>
+</ul>
+</li>
+<li><a href="https://manjaro.org/">Manjaro</a>
+<ul>
+<li>Based on Arch</li>
+</ul>
+</li>
+<li><a href="https://www.kali.org/">Kali Linux</a>
+<ul>
+<li>Based on Debian</li>
+<li>Includes many cyber security tools</li>
+</ul>
+</li>
+<li><a href="https://tails.boum.org/">Tails</a>
+<ul>
+<li>An ephemeral Linux distribution, used only on live boot USBs</li>
+</ul>
+</li>
+</ul>
+<p>More info: <a href="https://en.wikipedia.org/wiki/Linux_distribution">https://en.wikipedia.org/wiki/Linux_distribution</a></p>
+<h2 id="what-is-a-desktop-environment"><a class="header" href="#what-is-a-desktop-environment">What is a Desktop Environment?</a></h2>
+<p>A desktop environment is a graphical user interface (GUI) that provides users with a way to interact with the operating system. It handles all graphical program windows, menus, and icons, along with the taskbar and other desktop widgets. A few popular desktop environments include:</p>
+<ul>
+<li>GNOME</li>
+<li>KDE</li>
+<li>Xfce</li>
+<li>MATE</li>
+<li>Cinnamon</li>
+</ul>
+<p>More info: <a href="https://en.wikipedia.org/wiki/Desktop_environment">https://en.wikipedia.org/wiki/Desktop_environment</a></p>
+<p>Most linux distributions meant for desktop use come with a pre-installed desktop environment. For example, Ubuntu comes with GNOME while Kubuntu, a spinoff of Ubuntu, comes with KDE. It is important to note basically any linux distribution can be used with any desktop environment. In fact, some distro websites (like <a href="https://fedoraproject.org/spins/">https://fedoraproject.org/spins/</a>) provide a download for each popular desktop environment. Arch is somewhat unique in that it doesn’t come with a desktop environment at all. Instead, users will need to install one after installing the distro itself.</p>
+<h2 id="why-should-i-care-about-linux"><a class="header" href="#why-should-i-care-about-linux">Why should I care about Linux?</a></h2>
+<p>Because of Linux’s quality and free licensing, it has become a popular choice for servers. In fact, “96.3% of the top one million web servers are running Linux” <sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup>. That means that a strong majority developers need to develop products that run on Linux. Because of this and because Linux is free and flexible, many developers use Linux as their desktop operating system as well <sup class="footnote-reference" id="fr-1-2"><a href="#footnote-1">1</a></sup>.</p>
+<p>Since there is no escaping linux, we strongly encourage young developers to start learning it.</p>
+<hr>
+<ol class="footnote-definition">
+<li id="footnote-1">
+<p><a href="https://truelist.co/blog/linux-statistics/">https://truelist.co/blog/linux-statistics/</a> <a href="#fr-1-1">↩</a> <a href="#fr-1-2">↩2</a></p>
+</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="how-to-install-linux"><a class="header" href="#how-to-install-linux">How to install Linux</a></h1>
+<p>Linux can be installed in a variety of ways, but it almost always starts with downloading the distribution’s install ISO. Here are the links to a few common distros:</p>
+<ul>
+<li>Ubuntu: <a href="https://ubuntu.com/download/desktop">https://ubuntu.com/download/desktop</a></li>
+<li>Debian: <a href="https://www.debian.org/distrib/">https://www.debian.org/distrib/</a></li>
+<li>Kali Linux: <a href="https://www.kali.org/get-kali">https://www.kali.org/get-kali</a></li>
+<li>Linux Mint: <a href="https://www.linuxmint.com/download.php">https://www.linuxmint.com/download.php</a></li>
+<li>Fedora: <a href="https://fedoraproject.org/workstation/">https://fedoraproject.org/workstation/</a></li>
+</ul>
+<h2 id="installing-on-a-physical-machine"><a class="header" href="#installing-on-a-physical-machine">Installing on a Physical Machine</a></h2>
+<p>Once you have downloaded the ISO, use a USB flashing program (any of the below) to write the ISO to a USB drive.</p>
+<ul>
+<li>Window: <a href="https://rufus.ie/en/">Rufus</a></li>
+<li>MacOS / Linux:
+<ul>
+<li><a href="https://etcher.balena.io/">Balena Etcher</a></li>
+<li>The <code>dd</code> command command for experienced users</li>
+</ul>
+</li>
+<li>Linux:
+<ul>
+<li><a href="https://github.com/pop-os/popsicle">Popsicle</a></li>
+<li><a href="https://apps.kde.org/isoimagewriter/">KDE ISO Image Writer</a></li>
+</ul>
+</li>
+</ul>
+<p>Once the USB drive is written, boot the machine from the USB drive (using a BIOS or UEFI boot menu) and follow the instructions provided by the distro’s installer.</p>
+<h2 id="installing-on-a-virtual-machine"><a class="header" href="#installing-on-a-virtual-machine">Installing on a Virtual Machine</a></h2>
+<p>Setting up a virtual machine is a great way to play with and learn Linux without having to install it on a physical machine. We recommend using <a href="https://www.virtualbox.org/">Oracle VirtualBox</a> for this purpose since it’s free and open source. You can download it here: <a href="https://www.virtualbox.org/wiki/Downloads">https://www.virtualbox.org/wiki/Downloads</a>.</p>
+<p>To setup a linux Virtual Machine (VM), follow this guide: <a href="https://ubuntu.com/tutorials/how-to-run-ubuntu-desktop-on-a-virtual-machine-using-virtualbox#1-overview">https://ubuntu.com/tutorials/how-to-run-ubuntu-desktop-on-a-virtual-machine-using-virtualbox#1-overview</a>. It’s written for Ubuntu, but the steps for booting from the ISO image should be almost identical for other distros.</p>
+<h2 id="installing-via-wsl-no-iso-windows-only"><a class="header" href="#installing-via-wsl-no-iso-windows-only">Installing via WSL (no ISO) (Windows only)</a></h2>
+<p>For Windows computers with Windows 10 or 11, this is an easy way to use the Ubuntu terminal on top of your system without partitioning your hard drive or using a virtual machine. Windows essentially treats it like another program on the computer, so you run it anytime you like from the Start Menu or from the terminal drop-down menu.</p>
+<ul>
+<li>To install WSL, open the terminal in administrator mode and execute:
+<pre><code>wsl --install
+</code></pre>
+</li>
+<li>Once it is installed, restart, and then you can then go ahead and set up our Linux username and password when it comes back up</li>
+<li>Once you are signed into to your Ubuntu account, update and upgrade the system
+<pre><code>sudo apt update &amp;&amp; sudo apt upgrade -y
+</code></pre>
+</li>
+<li>Close the window</li>
+<li>You can now access Ubuntu
+<ul>
+<li>from the Start menu by selecting/searching for WSL or Ubuntu</li>
+<li>by opening the terminal and running the command:
+<pre><code>wsl
+</code></pre>
+or
+<pre><code>ubuntu
+</code></pre>
+<ul>
+<li>run the <code>exit</code> command to return to the windows terminal</li>
+</ul>
+</li>
+<li>by selecting Ubuntu from the dropdown menu at the top of the terminal window</li>
+</ul>
+</li>
+<li>Now that it is all set up, you access and manipulate all the files on your computer using Ubuntu</li>
+<li>This can be very useful for testing C code that needs to run on the CSU Linux computers for homework.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="cheat-sheet"><a class="header" href="#cheat-sheet">Cheat Sheet</a></h1>
+<h2 id="basic-linux-commands"><a class="header" href="#basic-linux-commands">Basic Linux Commands</a></h2>
+<h3 id="ssh-and-file-transfer"><a class="header" href="#ssh-and-file-transfer">SSH and File Transfer</a></h3>
+<h3 id="ssh---secure-shell"><a class="header" href="#ssh---secure-shell">SSH - Secure Shell</a></h3>
+<p><code>ssh [username]@[server].eecs.csuohio.edu</code></p>
+<p>Allows you to remotely connect to a school server.</p>
+<p>If outside the school Wi-Fi, you can only connect to <strong>spirit</strong> or <strong>grail</strong> first.</p>
+<p>Once connected to <strong>spirit</strong> or <strong>grail</strong>, you can SSH into any other school server.</p>
+<p><strong>grail</strong> is for turning in assignments only, not for work.</p>
+<h3 id="scp---secure-copy"><a class="header" href="#scp---secure-copy">SCP - Secure Copy</a></h3>
+<p><code>scp [file] [username]@[server].eecs.csuohio.edu:[directory]</code></p>
+<p>Copies a file from your computer to the school server.</p>
+<p>Use <code>~</code> for your home directory or specify a full path, e.g., <code>~/CIS340/Assignment1</code>.</p>
+<p>All servers share the same directories and files.</p>
+<h3 id="file-and-directory-management"><a class="header" href="#file-and-directory-management">File and Directory Management</a></h3>
+<h3 id="list-directory-contents"><a class="header" href="#list-directory-contents">List Directory Contents</a></h3>
+<p><code>ls</code></p>
+<p>Displays the contents of your current directory (folder).</p>
+<p>You start in your home directory upon connecting to a school server.</p>
+<h3 id="create-a-directory"><a class="header" href="#create-a-directory">Create a Directory</a></h3>
+<p><code>mkdir [name]</code></p>
+<p>Creates a new directory (folder).</p>
+<p>Useful for organizing coursework, e.g., <code>mkdir CIS340</code>.</p>
+<h3 id="remove-files-or-directories"><a class="header" href="#remove-files-or-directories">Remove Files or Directories</a></h3>
+<p><code>rm [directory/file]</code></p>
+<p>Deletes a file or directory completely, including all its contents.</p>
+<h3 id="change-directory"><a class="header" href="#change-directory">Change Directory</a></h3>
+<p><code>cd [directory]</code></p>
+<p>Navigates into a directory.</p>
+<p>Use <code>cd ..</code> to move up one directory level.</p>
+<h3 id="create-a-file--update-timestamp"><a class="header" href="#create-a-file--update-timestamp">Create a File / Update Timestamp</a></h3>
+<p><code>touch [file]</code></p>
+<p>Updates the last accessed timestamp of a file.</p>
+<p>If the file does not exist, it creates a new empty file.</p>
+<h3 id="editing-and-modifying-files"><a class="header" href="#editing-and-modifying-files">Editing and Modifying Files</a></h3>
+<h3 id="text-editor-nano"><a class="header" href="#text-editor-nano">Text Editor (Nano)</a></h3>
+<p><code>nano [file]</code></p>
+<p>Opens a simple built-in text editor to modify text files.</p>
+<h3 id="echo-text-output"><a class="header" href="#echo-text-output">Echo Text Output</a></h3>
+<p><code>echo [string]</code></p>
+<p>Displays a string in the terminal.</p>
+<p><code>echo [string] &gt; [file]</code></p>
+<p>Writes the string into a file (overwrites existing content).</p>
+<p><code>echo [string] &gt;&gt; [file]</code></p>
+<p>Appends the string to the end of an existing file.</p>
+<h3 id="move--rename-files-and-directories"><a class="header" href="#move--rename-files-and-directories">Move / Rename Files and Directories</a></h3>
+<p><code>mv [source] [destination]</code></p>
+<p>Moves a file or directory to another location.</p>
+<p>Moving a file to another file renames it.</p>
+<p>Moving a file to a directory places it inside that directory.</p>
+<h3 id="copy-files-and-directories"><a class="header" href="#copy-files-and-directories">Copy Files and Directories</a></h3>
+<p><code>cp [file] [destination]</code></p>
+<p>Copies a file to another file or directory.</p>
+<p>If copying to a file, it will overwrite the existing file.</p>
+<p>If copying to a directory, it keeps the original name.</p>
+<h3 id="redirection-"><a class="header" href="#redirection-">Redirection &gt;</a></h3>
+<p><code>[command] &gt; filename.txt</code></p>
+<p>Creates new file and writes the output of the command as lines of text to the new file.</p>
+<p>For example, <code>ls &gt; ls.txt</code> wites the contents of the current directory to a file named ls.txt which it puts in the current directory.</p>
+<p><code>cat &gt; catRedirect.txt</code> will write any following lines you type into catRedirect.txt (since executing <code>cat</code> by itself repeats back at you whatever you type). That output becomes the input for thr file. Press ctrl+c to exit out of the running <code>cat</code> command.</p>
+<h3 id="pipes-"><a class="header" href="#pipes-">Pipes |</a></h3>
+<p><code>[command] | [command]</code></p>
+<p>The output of the first command becomes the input of the first command.</p>
+<p>These can be chained together, so output of one command becomes the input of anouther, whose output goes to another command, so you can execute mutiple operations one file or directory in succession, each building on the next.</p>
+<h3 id="assignment-submission"><a class="header" href="#assignment-submission">Assignment Submission</a></h3>
+<h3 id="turn-in-assignments"><a class="header" href="#turn-in-assignments">Turn in Assignments</a></h3>
+<p><code>turnin -c [class] -p [assignment] [file]</code></p>
+<p>Used to submit assignments via the server.</p>
+<p>Only available on grail.</p>
+<p>Must run this command from the directory containing the file.</p>
+<p>Your professor will provide the correct parameters for each assignment.</p>
+<h3 id="exiting-the-server"><a class="header" href="#exiting-the-server">Exiting the Server</a></h3>
+<h3 id="close-connection"><a class="header" href="#close-connection">Close Connection</a></h3>
+<p><code>exit</code></p>
+<p>Logs you out of the server.</p>
+<p>Not required but recommended for good practice.</p>
+<h2 id="git-commands"><a class="header" href="#git-commands">Git commands</a></h2>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+
+    </div>
+    </body>
+</html>
