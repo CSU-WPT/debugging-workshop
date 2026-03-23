@@ -1,7 +1,6 @@
 [book]
 authors = ["River Stepp", "Meir Manevich"]
 language = "en"
-multilingual = false
 src = "src"
 title = "The CPT's Debugging Workshop"
 
