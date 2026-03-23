@@ -6,11 +6,6 @@ on:
       - main  # Set a branch name to trigger deployment
   pull_request:
 
-permissions:
-  contents: write
-  pages: write
-  id-token: write
-
 jobs:
   deploy:
     runs-on: ubuntu-22.04
