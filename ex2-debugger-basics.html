@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Introduction - The CPT&#x27;s Debugging Workshop</title>
+        <title>Level 2 – Debugger Basics - The CPT&#x27;s Debugging Workshop</title>
 
 
         <!-- Custom HTML head -->
@@ -35,10 +35,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-397cc935.js";
+            window.path_to_searchindex_js = "searchindex-75e3d7db.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-b19f64b8.js"></script>
+        <script src="toc-2cdb70ec.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -174,14 +174,144 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+                        <h1 id="level-2--debugger-basics--12-minutes"><a class="header" href="#level-2--debugger-basics--12-minutes">Level 2 – Debugger Basics (≈ 12 minutes)</a></h1>
+<p><strong>Concepts</strong>: breakpoints, stepping over/into/out, variable inspection, tracking changing state, logic bugs.</p>
+<p>We will reuse the Level 1 code, but now solve the bugs <strong>with the debugger</strong> instead of just reading messages.</p>
+<hr>
+<h2 id="1-confirm-your-code"><a class="header" href="#1-confirm-your-code">1. Confirm your code</a></h2>
+<p>You should still have:</p>
+<ul>
+<li><code>BuggyCalculator.java</code></li>
+<li><code>BuggyLoop.java</code></li>
+<li><code>Main.java</code></li>
+</ul>
+<p>If you already fixed the code in Level 1, <strong>temporarily undo those fixes</strong> (or paste the original versions from Level 1) so that:</p>
+<ul>
+<li><code>divide</code> can still divide by zero.</li>
+<li><code>sumFirstThree</code> still loops to <code>i &lt;= 3</code>.</li>
+<li><code>countUpTo</code> still uses <code>for (int i = 1; i &lt; n; i++)</code>.</li>
+</ul>
+<p>We want the bugs back so we can practice debugging them.</p>
+<hr>
+<h2 id="2-set-your-first-breakpoint"><a class="header" href="#2-set-your-first-breakpoint">2. Set your first breakpoint</a></h2>
+<ol>
+<li>Open <code>Main.java</code>.</li>
+<li>Click in the gutter on the line:
+<ul>
+<li><code>int result = BuggyCalculator.divide(10, 0);</code></li>
+</ul>
+</li>
+<li>You should see a <strong>red dot</strong> (breakpoint) next to that line.</li>
+</ol>
+<p>Start the debugger:</p>
+<ol>
+<li>Click <strong>Debug</strong>.</li>
+<li>When execution pauses, the breakpoint line will be highlighted.</li>
+</ol>
+<hr>
+<h2 id="3-step-over-and-inspect-variables"><a class="header" href="#3-step-over-and-inspect-variables">3. Step over and inspect variables</a></h2>
+<p>When paused at the breakpoint:</p>
+<ol>
+<li>Look at the <strong>Variables/Locals</strong> panel:
+<ul>
+<li>You should see <code>args</code> and any local variables.</li>
+</ul>
+</li>
+<li>Click <strong>Step Over</strong>:
+<ul>
+<li>This executes the <code>divide</code> call and <strong>moves to the next line</strong> (or throws an exception).</li>
+</ul>
+</li>
+</ol>
+<p>If an exception is thrown:</p>
+<ul>
+<li>Notice how the debugger shows the <strong>line that crashed</strong>.</li>
+<li>Compare to the stack trace from Level 1.</li>
+</ul>
+<p>Repeat, but this time:</p>
+<ol>
+<li>Set a breakpoint inside <code>BuggyCalculator.divide</code>, on the line <code>return a / b;</code>.</li>
+<li>Start <strong>Debug</strong> again.</li>
+<li>The debugger will stop inside <code>divide</code>.</li>
+</ol>
+<p>Use the debugger to answer:</p>
+<ul>
+<li>What are the values of <code>a</code> and <code>b</code> right before the division?</li>
+<li>What happens if <code>b</code> is zero?</li>
+</ul>
+<hr>
+<h2 id="4-step-into-another-method"><a class="header" href="#4-step-into-another-method">4. Step into another method</a></h2>
+<p>Practice <strong>Step Into</strong> and <strong>Step Out</strong> with <code>sumFirstThree</code>:</p>
+<ol>
+<li>Set a breakpoint in <code>Main.main</code> on:
+<ul>
+<li><code>int sum = BuggyCalculator.sumFirstThree(nums);</code></li>
+</ul>
+</li>
+<li>Start <strong>Debug</strong>.</li>
+<li>When paused on this line, click <strong>Step Into</strong>.</li>
+</ol>
+<p>You should now be inside <code>BuggyCalculator.sumFirstThree</code>.</p>
+<p>While stepping through the loop:</p>
+<ol>
+<li>Watch <code>i</code>, <code>total</code>, and <code>numbers.length</code> in the Variables panel.</li>
+<li>Use <strong>Step Over</strong> to run each iteration.</li>
+<li>Notice when <code>i</code> becomes an invalid index.</li>
+</ol>
+<p>Optional: add a <strong>Watch</strong> expression (if available) for <code>numbers[i]</code>.</p>
+<p>When you understand why it crashes:</p>
+<ol>
+<li>Click <strong>Stop</strong> to end the debugging session.</li>
+<li>Fix <code>sumFirstThree</code> so it:
+<ul>
+<li>Does not crash when the array is short.</li>
+<li>Still correctly sums up to the first 3 items when they exist.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="5-debugging-a-logic-bug-with-stepping"><a class="header" href="#5-debugging-a-logic-bug-with-stepping">5. Debugging a logic bug with stepping</a></h2>
+<p>Now fix <code>BuggyLoop.countUpTo</code> <strong>using the debugger</strong>, not just by staring at the code.</p>
+<ol>
+<li>Set a breakpoint in <code>Main</code> on:
+<ul>
+<li><code>int count = BuggyLoop.countUpTo(5);</code></li>
+</ul>
+</li>
+<li>Click <strong>Debug</strong>.</li>
+<li>When paused, click <strong>Step Into</strong> to enter <code>countUpTo</code>.</li>
+<li>Use <strong>Step Over</strong> to step through each loop iteration.</li>
+</ol>
+<p>Observe:</p>
+<ul>
+<li>How many times does the loop run?</li>
+<li>What are the values of <code>i</code> and <code>count</code> at each step?</li>
+</ul>
+<p>Use this observation to:</p>
+<ol>
+<li>Decide what the loop <em>should</em> do.</li>
+<li>Update the loop condition so <code>countUpTo(5)</code> returns the expected value.</li>
+</ol>
+<p>Re‑run with the debugger to confirm the fix.</p>
+<hr>
+<h2 id="6-compare-debugger-vs-print-debugging"><a class="header" href="#6-compare-debugger-vs-print-debugging">6. Compare debugger vs print debugging</a></h2>
+<p>Briefly discuss or think about:</p>
+<ul>
+<li>When was the debugger <strong>faster</strong> or clearer than <code>System.out.println</code>?</li>
+<li>When might print debugging still be useful?</li>
+<li>How did stepping into <code>sumFirstThree</code> and <code>countUpTo</code> help you see the bug more clearly?</li>
+</ul>
+<p>You are now ready to debug across <strong>multiple files and classes</strong> in <strong>Level 3</strong>.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ex1-reading-errors.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
-                            <a rel="next prefetch" href="ch1-linux.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="ex3-multifile-debugging.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -191,8 +321,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ex1-reading-errors.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
 
-                    <a rel="next prefetch" href="ch1-linux.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="ex3-multifile-debugging.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>

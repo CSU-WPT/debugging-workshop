@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>What is Linux? - The CPT&#x27;s Debugging Workshop</title>
+        <title>Level 3 – Multi‑File Debugging - The CPT&#x27;s Debugging Workshop</title>
 
 
         <!-- Custom HTML head -->
@@ -35,10 +35,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-397cc935.js";
+            window.path_to_searchindex_js = "searchindex-75e3d7db.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-b19f64b8.js"></script>
+        <script src="toc-2cdb70ec.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -174,17 +174,229 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="what-is-linux"><a class="header" href="#what-is-linux">What is Linux?</a></h1>
+                        <h1 id="level-3--multifile-debugging--13-minutes"><a class="header" href="#level-3--multifile-debugging--13-minutes">Level 3 – Multi‑File Debugging (≈ 13 minutes)</a></h1>
+<p><strong>Concepts</strong>: stepping between files, multi‑file logic bugs, call stack, unexpected control flow, bad method arguments.</p>
+<p>We will work with a tiny “scoreboard” app:</p>
+<ul>
+<li><code>GameApp.java</code> – main program that simulates a few players.</li>
+<li><code>Player.java</code> – represents a player and their scores.</li>
+<li><code>ScoreUtils.java</code> – helper methods with bugs (logic + bad arguments).</li>
+</ul>
+<hr>
+<h2 id="1-setup-the-files"><a class="header" href="#1-setup-the-files">1. Setup the files</a></h2>
+<p>Create or open these files and paste in the code.</p>
+<h3 id="playerjava"><a class="header" href="#playerjava"><code>Player.java</code></a></h3>
+<pre><code class="language-java">public class Player {
+    private String name;
+    private int[] scores;
+
+    public Player(String name, int[] scores) {
+        this.name = name;
+        this.scores = scores;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int[] getScores() {
+        return scores;
+    }
+}
+</code></pre>
+<h3 id="scoreutilsjava"><a class="header" href="#scoreutilsjava"><code>ScoreUtils.java</code></a></h3>
+<pre><code class="language-java">public class ScoreUtils {
+
+    // BUG 1: incorrect average calculation (logic bug)
+    public static double averageScore(int[] scores) {
+        int total = 0;
+        for (int i = 0; i &lt; scores.length; i++) {
+            total += scores[i];
+        }
+        // BUG: divides by (length + 1), making average too small
+        return (double) total / (scores.length + 1);
+    }
+
+    // BUG 2: unexpected control flow when scores is empty
+    public static int bestScore(int[] scores) {
+        // BUG: returns 0 even if there are negative scores or empty array
+        int best = 0;
+        for (int score : scores) {
+            if (score &gt; best) {
+                best = score;
+            }
+        }
+        return best;
+    }
+
+    // BUG 3: bad method arguments / null handling
+    public static int totalScore(Player player) {
+        // BUG: does not guard against null player or null scores
+        int sum = 0;
+        for (int s : player.getScores()) {
+            sum += s;
+        }
+        return sum;
+    }
+}
+</code></pre>
+<h3 id="gameappjava"><a class="header" href="#gameappjava"><code>GameApp.java</code></a></h3>
+<pre><code class="language-java">public class GameApp {
+    public static void main(String[] args) {
+        Player alice = new Player("Alice", new int[] {10, 15, 20});
+        Player bob = new Player("Bob", new int[] {5, 7});
+        Player charlie = new Player("Charlie", new int[] {}); // empty scores
+
+        System.out.println("=== Scoreboard ===");
+
+        printPlayerStats(alice);
+        printPlayerStats(bob);
+        printPlayerStats(charlie);
+
+        // Intentionally pass a null player to show a null‑related bug
+        Player mystery = null;
+        System.out.println("\nMystery total score (should handle null):");
+        int total = ScoreUtils.totalScore(mystery);
+        System.out.println("Total: " + total);
+    }
+
+    private static void printPlayerStats(Player player) {
+        int[] scores = player.getScores();
+
+        double avg = ScoreUtils.averageScore(scores);
+        int best = ScoreUtils.bestScore(scores);
+        int total = ScoreUtils.totalScore(player);
+
+        System.out.println("Player: " + player.getName());
+        System.out.println("  Average: " + avg);
+        System.out.println("  Best: " + best);
+        System.out.println("  Total: " + total);
+        System.out.println();
+    }
+}
+</code></pre>
+<p>Make sure:</p>
+<ul>
+<li>All three files are saved.</li>
+<li><code>GameApp.java</code> contains a <code>main</code> method and will be your entry point.</li>
+</ul>
+<hr>
+<h2 id="2-run-and-observe"><a class="header" href="#2-run-and-observe">2. Run and observe</a></h2>
+<ol>
+<li>Open <code>GameApp.java</code>.</li>
+<li>Click <strong>Run</strong>.</li>
+</ol>
+<p><strong>Expected symptoms</strong>:</p>
+<ul>
+<li>The program may:
+<ul>
+<li>Print suspicious/incorrect averages.</li>
+<li>Print wrong best scores (especially for negative or empty sets).</li>
+<li>Crash with a <code>NullPointerException</code> when using the <code>mystery</code> player.</li>
+</ul>
+</li>
+</ul>
+<p>Focus on:</p>
+<ul>
+<li>Which output <strong>looks</strong> wrong?</li>
+<li>Where does the stack trace say the null pointer came from?</li>
+</ul>
+<hr>
+<h2 id="3-step-across-files-with-the-debugger"><a class="header" href="#3-step-across-files-with-the-debugger">3. Step across files with the debugger</a></h2>
+<p>Now use the debugger to see <strong>how control flows</strong> between files.</p>
+<ol>
+<li>Set a breakpoint on the first line of <code>main</code> in <code>GameApp</code>.</li>
+<li>Click <strong>Debug</strong>.</li>
+<li>When paused, click <strong>Step Over</strong> a few times to:
+<ul>
+<li>Create the players.</li>
+<li>Reach the first call to <code>printPlayerStats</code>.</li>
+</ul>
+</li>
+<li>When you reach <code>printPlayerStats(alice);</code>, click <strong>Step Into</strong>.</li>
+</ol>
+<p>You should now be in <code>printPlayerStats</code>:</p>
+<ol>
+<li>Step until you reach <code>double avg = ScoreUtils.averageScore(scores);</code>.</li>
+<li>Use <strong>Step Into</strong> to jump into <code>ScoreUtils.averageScore</code>.</li>
+<li>Watch <code>scores.length</code>, <code>total</code>, and the returned value in the Variables panel.</li>
+</ol>
+<p>Answer:</p>
+<ul>
+<li>Why is the average too small?</li>
+<li>Which line in which file is the true bug?</li>
+</ul>
+<hr>
+<h2 id="4-use-the-call-stack-to-reason-about-a-crash"><a class="header" href="#4-use-the-call-stack-to-reason-about-a-crash">4. Use the call stack to reason about a crash</a></h2>
+<p>Trigger the <code>NullPointerException</code> on <code>mystery</code>:</p>
+<ol>
+<li>Set a breakpoint on the line <code>int total = ScoreUtils.totalScore(mystery);</code> in <code>main</code>.</li>
+<li>Start <strong>Debug</strong> and let execution run to that breakpoint.</li>
+<li><strong>Step Into</strong> to enter <code>ScoreUtils.totalScore</code>.</li>
+<li>When the exception occurs, look at:
+<ul>
+<li>The <strong>current line</strong>.</li>
+<li>The <strong>Call Stack</strong> panel.</li>
+</ul>
+</li>
+</ol>
+<p>Questions:</p>
+<ul>
+<li>Which expression is actually null?</li>
+<li>How did that null value get there? (Use the call stack to go “up” one frame.)</li>
+</ul>
+<p>Fix <code>totalScore</code> so that:</p>
+<ul>
+<li>It <strong>does not crash</strong> when <code>player</code> is null or <code>player.getScores()</code> is null.</li>
+<li>It returns a reasonable value (for example, <code>0</code>) in those cases.</li>
+</ul>
+<p>Run again to confirm the crash is gone.</p>
+<hr>
+<h2 id="5-fix-the-best-score-logic"><a class="header" href="#5-fix-the-best-score-logic">5. Fix the best score logic</a></h2>
+<p>Currently, <code>bestScore</code> assumes:</p>
+<ul>
+<li><code>best</code> starts at <code>0</code>.</li>
+<li>Any score greater than <code>0</code> is the best.</li>
+</ul>
+<p>This fails when:</p>
+<ul>
+<li>All scores are negative.</li>
+<li>The array is empty.</li>
+</ul>
+<p>Use breakpoints and stepping to:</p>
+<ol>
+<li>Pause inside <code>bestScore</code>.</li>
+<li>Watch how <code>best</code> changes as you loop through <code>scores</code>.</li>
+<li>Decide what should happen when <code>scores</code> is empty.</li>
+</ol>
+<p>Update <code>bestScore</code> to:</p>
+<ul>
+<li>Handle empty arrays gracefully (for example, return <code>0</code> or a sentinel like <code>Integer.MIN_VALUE</code>).</li>
+<li>Correctly track the maximum value even when all scores are negative.</li>
+</ul>
+<p>Re‑run the program and check:</p>
+<ul>
+<li>Do the printed “Best” values now match your expectations?</li>
+</ul>
+<hr>
+<h2 id="6-reflection-level-3"><a class="header" href="#6-reflection-level-3">6. Reflection (Level 3)</a></h2>
+<p>Discuss or write:</p>
+<ul>
+<li>How did stepping <strong>between files</strong> help you understand the bugs?</li>
+<li>When reading a stack trace, how do you choose which frame to investigate first?</li>
+<li>How can you prevent null‑related bugs like the one in <code>totalScore</code>?</li>
+</ul>
+<p>In <strong>Level 4</strong>, you will tackle a more <strong>layered scenario</strong> that combines several types of bugs.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="introduction.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="ex2-debugger-basics.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="ch1.1-linux-installation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="ex4-layered-bug.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -194,11 +406,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="introduction.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="ex2-debugger-basics.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="ch1.1-linux-installation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="ex4-layered-bug.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>

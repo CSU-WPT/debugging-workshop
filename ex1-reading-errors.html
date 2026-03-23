@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>How to Install Linux - The CPT&#x27;s Debugging Workshop</title>
+        <title>Level 1 – Reading Errors - The CPT&#x27;s Debugging Workshop</title>
 
 
         <!-- Custom HTML head -->
@@ -35,10 +35,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-397cc935.js";
+            window.path_to_searchindex_js = "searchindex-75e3d7db.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-b19f64b8.js"></script>
+        <script src="toc-2cdb70ec.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -174,17 +174,175 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="how-to-install-linux"><a class="header" href="#how-to-install-linux">How to Install Linux</a></h1>
+                        <h1 id="level-1--reading-errors--10-minutes"><a class="header" href="#level-1--reading-errors--10-minutes">Level 1 – Reading Errors (≈ 10 minutes)</a></h1>
+<p><strong>Concepts</strong>: compile‑time vs runtime errors, error messages, stack traces, print debugging vs debugger.</p>
+<p>We will start with two small programs:</p>
+<ul>
+<li><code>BuggyCalculator.java</code> – has compile‑time and runtime issues.</li>
+<li><code>BuggyLoop.java</code> – has a logic bug (off‑by‑one).</li>
+</ul>
+<hr>
+<h2 id="1-setup-the-files"><a class="header" href="#1-setup-the-files">1. Setup the files</a></h2>
+<p>Create or open these files in OnlineGDB and paste in the code below.</p>
+<h3 id="buggycalculatorjava"><a class="header" href="#buggycalculatorjava"><code>BuggyCalculator.java</code></a></h3>
+<pre><code class="language-java">public class BuggyCalculator {
+
+    // Intentionally buggy method: sometimes crashes, sometimes returns wrong result
+    public static int divide(int a, int b) {
+        // BUG 1: possible division by zero (runtime error)
+        return a / b;
+    }
+
+    public static int sumFirstThree(int[] numbers) {
+        // BUG 2: potential ArrayIndexOutOfBoundsException
+        int total = 0;
+        for (int i = 0; i &lt;= 3; i++) { // off‑by‑one AND assumes at least 4 elements
+            total += numbers[i];
+        }
+        return total;
+    }
+}
+</code></pre>
+<h3 id="buggyloopjava"><a class="header" href="#buggyloopjava"><code>BuggyLoop.java</code></a></h3>
+<pre><code class="language-java">public class BuggyLoop {
+
+    // Intentionally buggy method: tries to count from 1 to n
+    public static int countUpTo(int n) {
+        int count = 0;
+        // BUG 3: incorrect loop condition, never reaches n
+        for (int i = 1; i &lt; n; i++) {
+            count++;
+        }
+        return count;
+    }
+}
+</code></pre>
+<h3 id="mainjava"><a class="header" href="#mainjava"><code>Main.java</code></a></h3>
+<p>Replace the contents of <code>Main.java</code> with:</p>
+<pre><code class="language-java">public class Main {
+    public static void main(String[] args) {
+        // Example 1: division
+        System.out.println("Trying division...");
+        int result = BuggyCalculator.divide(10, 0);
+        System.out.println("Result: " + result);
+
+        // Example 2: sum first three
+        int[] nums = {1, 2};
+        System.out.println("Trying sumFirstThree...");
+        int sum = BuggyCalculator.sumFirstThree(nums);
+        System.out.println("Sum: " + sum);
+
+        // Example 3: loop
+        System.out.println("Trying countUpTo(5)...");
+        int count = BuggyLoop.countUpTo(5);
+        System.out.println("Count: " + count);
+    }
+}
+</code></pre>
+<hr>
+<h2 id="2-run-and-observe"><a class="header" href="#2-run-and-observe">2. Run and observe</a></h2>
+<ol>
+<li>Open <code>Main.java</code>.</li>
+<li>Click <strong>Run</strong> (not Debug yet).</li>
+<li>Watch the <strong>Console</strong> output and error messages.</li>
+</ol>
+<p><strong>Expected symptoms</strong>:</p>
+<ul>
+<li>The program should <strong>throw a runtime error</strong> (an exception) on the division line.</li>
+<li>You should see a <strong>stack trace</strong> in the console mentioning:
+<ul>
+<li>The type of exception.</li>
+<li>The line number in <code>BuggyCalculator.java</code>.</li>
+<li>The line number in <code>Main.java</code> where it was called.</li>
+</ul>
+</li>
+</ul>
+<p>If you fix that and run again, you will later see:</p>
+<ul>
+<li>Another exception from <code>sumFirstThree</code>.</li>
+<li>A <strong>logic bug</strong>: <code>countUpTo(5)</code> prints the wrong count but does not crash.</li>
+</ul>
+<hr>
+<h2 id="3-read-the-error-messages"><a class="header" href="#3-read-the-error-messages">3. Read the error messages</a></h2>
+<p>Focus on the first failure (division by zero):</p>
+<ol>
+<li>Look for the <strong>exception type</strong> (e.g., <code>java.lang.ArithmeticException</code>).</li>
+<li>Find the <strong>message</strong> (e.g., <code>/ by zero</code>).</li>
+<li>Find the <strong>topmost</strong> line from <strong>your code</strong> in the stack trace:
+<ul>
+<li>It should show <code>BuggyCalculator.divide</code> with a line number.</li>
+<li>It should show <code>Main.main</code> with a line number.</li>
+</ul>
+</li>
+</ol>
+<p>Answer (to yourself or a neighbor):</p>
+<ul>
+<li><strong>Is this a compile‑time error or a runtime error? Why?</strong></li>
+<li><strong>Which line in which file is the “root cause” line?</strong></li>
+</ul>
+<hr>
+<h2 id="4-quick-detective-work-no-debugger-yet"><a class="header" href="#4-quick-detective-work-no-debugger-yet">4. Quick detective work (no debugger yet)</a></h2>
+<p>Without changing anything, ask:</p>
+<ul>
+<li>Why might <code>b</code> be zero in <code>divide</code>?</li>
+<li>Why might <code>sumFirstThree</code> hit an out‑of‑bounds index?</li>
+</ul>
+<p>Use <strong>print debugging</strong>:</p>
+<ol>
+<li>Add <code>System.out.println("a=" + a + ", b=" + b);</code> at the start of <code>divide</code>.</li>
+<li>Add <code>System.out.println("numbers length=" + numbers.length);</code> at the start of <code>sumFirstThree</code>.</li>
+<li>Run again and see the printed values before the crash.</li>
+</ol>
+<hr>
+<h2 id="5-fix-the-obvious-runtime-bugs"><a class="header" href="#5-fix-the-obvious-runtime-bugs">5. Fix the obvious runtime bugs</a></h2>
+<p>Make the program <strong>stop crashing</strong>, but don’t worry about perfect logic yet.</p>
+<p>Suggested changes (try on your own first):</p>
+<ul>
+<li>In <code>divide</code>, guard against <code>b == 0</code>:
+<ul>
+<li>Print an error and return 0, or</li>
+<li>Throw a more descriptive exception.</li>
+</ul>
+</li>
+<li>In <code>sumFirstThree</code>, handle arrays with fewer than 3 elements.</li>
+</ul>
+<p>Once you have fixed the crashes:</p>
+<ol>
+<li>Comment out or remove the temporary <code>println</code> calls you added.</li>
+<li>Run again and confirm there are <strong>no exceptions</strong>.</li>
+</ol>
+<hr>
+<h2 id="6-find-the-logic-bug"><a class="header" href="#6-find-the-logic-bug">6. Find the logic bug</a></h2>
+<p>Now focus on <code>BuggyLoop.countUpTo(5)</code>:</p>
+<ol>
+<li>What do you <strong>expect</strong> <code>countUpTo(5)</code> to return?</li>
+<li>What does it actually print?</li>
+<li>Is this a compile‑time error, runtime error, or logic bug?</li>
+</ol>
+<p>You can:</p>
+<ul>
+<li>Add a <code>println</code> inside the loop to print <code>i</code> each time.</li>
+<li>Or (in the next Level) use the debugger to step through it.</li>
+</ul>
+<hr>
+<h2 id="7-wrapup-questions-level-1"><a class="header" href="#7-wrapup-questions-level-1">7. Wrap‑up questions (Level 1)</a></h2>
+<p>Discuss or write short answers:</p>
+<ul>
+<li><strong>What is the difference between a compile‑time error and a runtime exception?</strong></li>
+<li><strong>How does the stack trace help you find the root cause?</strong></li>
+<li><strong>When is print debugging helpful, and when might it be slower than using a debugger?</strong></li>
+</ul>
+<p>You will revisit these same bugs in <strong>Level 2</strong>, but this time with <strong>breakpoints</strong> and <strong>stepping</strong>.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="ch1-linux.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="overview.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="cheat-sheet.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="ex2-debugger-basics.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -194,11 +352,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="ch1-linux.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="overview.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="cheat-sheet.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="ex2-debugger-basics.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Cheat Sheet - The CPT&#x27;s Debugging Workshop</title>
+        <title>Solutions &amp; Fixes - The CPT&#x27;s Debugging Workshop</title>
 
 
         <!-- Custom HTML head -->
@@ -35,10 +35,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-397cc935.js";
+            window.path_to_searchindex_js = "searchindex-75e3d7db.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-b19f64b8.js"></script>
+        <script src="toc-2cdb70ec.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -174,13 +174,192 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="cheat-sheet"><a class="header" href="#cheat-sheet">Cheat Sheet</a></h1>
+                        <h1 id="solutions--fixes"><a class="header" href="#solutions--fixes">Solutions &amp; Fixes</a></h1>
+<p>This section shows one set of possible fixes for the workshop exercises.<br>Your exact solutions may differ slightly as long as they:</p>
+<ul>
+<li>Remove the crashes.</li>
+<li>Produce correct behavior.</li>
+<li>Keep the code readable.</li>
+</ul>
+<hr>
+<h2 id="level-1--reading-errors"><a class="header" href="#level-1--reading-errors">Level 1 – Reading Errors</a></h2>
+<h3 id="buggycalculatordivide"><a class="header" href="#buggycalculatordivide"><code>BuggyCalculator.divide</code></a></h3>
+<p>One reasonable fix:</p>
+<pre><code class="language-java">public static int divide(int a, int b) {
+    if (b == 0) {
+        // FIX: prevent division by zero and return a safe default
+        System.out.println("Cannot divide " + a + " by zero.");
+        return 0; // or throw new IllegalArgumentException("b must not be zero");
+    }
+    return a / b;
+}
+</code></pre>
+<h3 id="buggycalculatorsumfirstthree"><a class="header" href="#buggycalculatorsumfirstthree"><code>BuggyCalculator.sumFirstThree</code></a></h3>
+<p>Handle short arrays safely:</p>
+<pre><code class="language-java">public static int sumFirstThree(int[] numbers) {
+    if (numbers == null || numbers.length == 0) {
+        // FIX: handle null or empty arrays without throwing an exception
+        return 0;
+    }
+
+    int limit = Math.min(3, numbers.length);
+    int total = 0;
+    for (int i = 0; i &lt; limit; i++) {
+        // FIX: stop before we run past the end of the array
+        total += numbers[i];
+    }
+    return total;
+}
+</code></pre>
+<h3 id="buggyloopcountupto"><a class="header" href="#buggyloopcountupto"><code>BuggyLoop.countUpTo</code></a></h3>
+<p>If the intent is to count how many numbers from 1 to <code>n</code> (inclusive):</p>
+<pre><code class="language-java">public static int countUpTo(int n) {
+    int count = 0;
+    for (int i = 1; i &lt;= n; i++) {
+        // FIX: loop up to and including n so the count matches the intent
+        count++;
+    }
+    return count;
+}
+</code></pre>
+<hr>
+<h2 id="level-2--debugger-basics"><a class="header" href="#level-2--debugger-basics">Level 2 – Debugger Basics</a></h2>
+<p>The key fixes here are the same as Level 1, but discovered using:</p>
+<ul>
+<li>Breakpoints.</li>
+<li>Stepping.</li>
+<li>Variable inspection.</li>
+</ul>
+<p>See the Level 1 solutions above.</p>
+<hr>
+<h2 id="level-3--multifile-debugging"><a class="header" href="#level-3--multifile-debugging">Level 3 – Multi‑File Debugging</a></h2>
+<h3 id="scoreutilsaveragescore"><a class="header" href="#scoreutilsaveragescore"><code>ScoreUtils.averageScore</code></a></h3>
+<p>Correct the average calculation:</p>
+<pre><code class="language-java">public static double averageScore(int[] scores) {
+    if (scores == null || scores.length == 0) {
+        // FIX: avoid dividing by zero and define a default average
+        return 0.0;
+    }
+
+    int total = 0;
+    for (int score : scores) {
+        total += score;
+    }
+    // FIX: divide by the correct length to get an accurate average
+    return (double) total / scores.length;
+}
+</code></pre>
+<h3 id="scoreutilsbestscore"><a class="header" href="#scoreutilsbestscore"><code>ScoreUtils.bestScore</code></a></h3>
+<p>Handle empty arrays and negative scores:</p>
+<pre><code class="language-java">public static int bestScore(int[] scores) {
+    if (scores == null || scores.length == 0) {
+        // FIX: define behavior for empty or null score lists
+        return 0; // or throw an exception, depending on requirements
+    }
+
+    int best = scores[0];
+    for (int i = 1; i &lt; scores.length; i++) {
+        // FIX: compare all elements starting from index 1
+        if (scores[i] &gt; best) {
+            best = scores[i];
+        }
+    }
+    return best;
+}
+</code></pre>
+<h3 id="scoreutilstotalscore"><a class="header" href="#scoreutilstotalscore"><code>ScoreUtils.totalScore</code></a></h3>
+<p>Defensive null handling:</p>
+<pre><code class="language-java">public static int totalScore(Player player) {
+    if (player == null || player.getScores() == null) {
+        // FIX: return a safe default when player or scores are missing
+        return 0;
+    }
+
+    int sum = 0;
+    for (int s : player.getScores()) {
+        sum += s;
+    }
+    return sum;
+}
+</code></pre>
+<hr>
+<h2 id="level-4--layered-bugs"><a class="header" href="#level-4--layered-bugs">Level 4 – Layered Bugs</a></h2>
+<h3 id="inputparserparselevel"><a class="header" href="#inputparserparselevel"><code>InputParser.parseLevel</code></a></h3>
+<p>A safer implementation:</p>
+<pre><code class="language-java">public static int parseLevel(String input) {
+    if (input == null) {
+        // FIX: handle null input by falling back to level 1
+        return 1; // default level
+    }
+
+    String trimmed = input.trim(); // e.g., "level: 4"
+    String[] parts = trimmed.split(":");
+    if (parts.length &lt; 2) {
+        // FIX: validate the basic "label:number" format
+        return 1; // or throw new IllegalArgumentException("Invalid level format");
+    }
+
+    String numberPart = parts[1].trim();
+
+    try {
+        // FIX: trim and safely parse the numeric part
+        return Integer.parseInt(numberPart);
+    } catch (NumberFormatException e) {
+        // FIX: use a safe default when parsing fails instead of crashing
+        return 1;
+    }
+}
+</code></pre>
+<h3 id="levelloaderloadenemiesforlevel"><a class="header" href="#levelloaderloadenemiesforlevel"><code>LevelLoader.loadEnemiesForLevel</code></a></h3>
+<p>Return a non‑null array:</p>
+<pre><code class="language-java">public static int[] loadEnemiesForLevel(int level) {
+    if (level == 1) {
+        return new int[] {2, 3};
+    } else if (level == 2) {
+        return new int[] {4, 4, 5};
+    } else if (level == 3) {
+        return new int[] {10};
+    } else {
+        // FIX: return an empty array instead of null for unknown levels
+        return new int[0];
+    }
+}
+</code></pre>
+<h3 id="levelloadercomputedifficulty"><a class="header" href="#levelloadercomputedifficulty"><code>LevelLoader.computeDifficulty</code></a></h3>
+<p>Fix the off‑by‑one and null handling:</p>
+<pre><code class="language-java">public static int computeDifficulty(int[] enemies) {
+    if (enemies == null || enemies.length == 0) {
+        // FIX: define a difficulty of 0 when there are no enemies
+        return 0;
+    }
+
+    int difficulty = 0;
+    for (int i = 0; i &lt; enemies.length; i++) {
+        // FIX: stop at enemies.length - 1 to avoid going out of bounds
+        difficulty += enemies[i] * (i + 1);
+    }
+    return difficulty;
+}
+</code></pre>
+<hr>
+<h2 id="putting-it-all-together"><a class="header" href="#putting-it-all-together">Putting it all together</a></h2>
+<p>After applying these fixes:</p>
+<ul>
+<li>The programs should compile and run without exceptions.</li>
+<li>The scoreboard should report sensible averages, best scores, and totals.</li>
+<li>The level loader should parse inputs, avoid null issues, and compute difficulty correctly.</li>
+</ul>
+<p>If your results differ, use the debugger again to:</p>
+<ul>
+<li>Set breakpoints in the fixed methods.</li>
+<li>Step through and verify that variable values match your expectations.</li>
+</ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="ch1.1-linux-installation.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="ex4-layered-bug.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
@@ -191,7 +370,7 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="ch1.1-linux-installation.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="ex4-layered-bug.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 

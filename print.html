@@ -36,10 +36,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-397cc935.js";
+            window.path_to_searchindex_js = "searchindex-75e3d7db.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-b19f64b8.js"></script>
+        <script src="toc-2cdb70ec.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -175,13 +175,1078 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+                        <h1 id="start-guide--5-minutes"><a class="header" href="#start-guide--5-minutes">Start Guide (≈ 5 minutes)</a></h1>
+<p>This workshop uses <strong>OnlineGDB</strong> – a free, modern, browser‑based IDE that supports <strong>multiple Java files</strong> and a full <strong>debugger</strong> (breakpoints, stepping, variable watch, call stack) with no paywall.</p>
+<p>You can follow these steps on any computer with a web browser.</p>
+<hr>
+<h2 id="1-open-the-ide"><a class="header" href="#1-open-the-ide">1. Open the IDE</a></h2>
+<ol>
+<li>Open your browser and go to <code>https://www.onlinegdb.com/online_java_compiler</code>.</li>
+<li>You should see a Java file named <code>Main.java</code> in the main editor and a <strong>Run</strong> and <strong>Debug</strong> button at the top.</li>
+</ol>
+<p><strong>Instructor note (1 min)</strong>: Make sure everyone is on the site and sees the Java editor.</p>
+<hr>
+<h2 id="2-create-the-project-layout"><a class="header" href="#2-create-the-project-layout">2. Create the project layout</a></h2>
+<p>We will work with several small Java files.</p>
+<ol>
+<li>In the <strong>File</strong> panel (left side), click <strong>New File</strong>.</li>
+<li>Name the file exactly: <code>BuggyCalculator.java</code>.</li>
+<li>Repeat and create these files as well:
+<ul>
+<li><code>BuggyLoop.java</code></li>
+<li><code>GameApp.java</code></li>
+<li><code>Player.java</code></li>
+<li><code>ScoreUtils.java</code></li>
+<li><code>LevelLoader.java</code></li>
+<li><code>InputParser.java</code></li>
+</ul>
+</li>
+<li>Keep the default <code>Main.java</code> file for now – we will replace its contents later.</li>
+</ol>
+<p>OnlineGDB saves these files in the temporary project in your browser.</p>
+<hr>
+<h2 id="3-how-to-paste-in-the-starter-code"><a class="header" href="#3-how-to-paste-in-the-starter-code">3. How to paste in the starter code</a></h2>
+<p>Each exercise chapter in this workshop includes <strong>copy‑paste‑ready</strong> code blocks.</p>
+<p>For each file:</p>
+<ol>
+<li>Click the file name in the left panel (for example <code>BuggyCalculator.java</code>).</li>
+<li>Select all existing code in the editor and delete it.</li>
+<li>Copy the corresponding code block from the workshop and paste it into the editor.</li>
+<li>Press <strong>Ctrl+S</strong> (or use the <strong>Save</strong> icon) to save that file.</li>
+</ol>
+<p><strong>Tip</strong>: Double‑check the file name at the top of the editor matches the heading above the code block in the book.</p>
+<hr>
+<h2 id="4-running-the-program"><a class="header" href="#4-running-the-program">4. Running the program</a></h2>
+<p>OnlineGDB runs whichever file contains the <code>public static void main(String[] args)</code> method.<br>In this workshop, <strong><code>Main.java</code></strong> (or <strong><code>GameApp.java</code></strong>, when specified) will be the entry point.</p>
+<p>To run:</p>
+<ol>
+<li>Make sure the correct main file (for example <code>Main.java</code>) is open in the editor.</li>
+<li>Click the <strong>Run</strong> button at the top.</li>
+<li>Watch the <strong>Console</strong> panel at the bottom for:
+<ul>
+<li>Program output</li>
+<li>Error messages</li>
+<li>Stack traces (when exceptions occur)</li>
+</ul>
+</li>
+</ol>
+<p>If the program doesn’t compile, error messages will appear in the console with line numbers.</p>
+<hr>
+<h2 id="5-starting-a-debugging-session"><a class="header" href="#5-starting-a-debugging-session">5. Starting a debugging session</a></h2>
+<p>To start the debugger in OnlineGDB:</p>
+<ol>
+<li>Open the file that contains <code>main</code> (for example <code>Main.java</code> or <code>GameApp.java</code>).</li>
+<li>Click in the <strong>gutter</strong> (the narrow column to the left of the line numbers) next to the line where you want execution to pause.
+<ul>
+<li>A <strong>red dot</strong> appears – this is a <strong>breakpoint</strong>.</li>
+</ul>
+</li>
+<li>Click the <strong>Debug</strong> button at the top.</li>
+<li>When the program hits a breakpoint, it will pause and highlight the current line.</li>
+</ol>
+<hr>
+<h2 id="6-stepping-through-code"><a class="header" href="#6-stepping-through-code">6. Stepping through code</a></h2>
+<p>When the program is paused on a breakpoint, use the toolbar buttons above the editor:</p>
+<ul>
+<li><strong>Step Over</strong>: runs the current line and stops at the next line in the same method.
+<ul>
+<li>Use this when you do <strong>not</strong> need to go inside a method call.</li>
+</ul>
+</li>
+<li><strong>Step Into</strong>: jumps into the method being called on the current line.
+<ul>
+<li>Use this to enter helper methods in <strong>other files/classes</strong>.</li>
+</ul>
+</li>
+<li><strong>Step Out</strong>: runs the rest of the current method and returns to the caller.
+<ul>
+<li>Use this to quickly leave a method once you understand it.</li>
+</ul>
+</li>
+</ul>
+<p>You can also press <strong>Continue</strong> to run until the next breakpoint or program exit.</p>
+<hr>
+<h2 id="7-inspecting-variables-watches-and-call-stack"><a class="header" href="#7-inspecting-variables-watches-and-call-stack">7. Inspecting variables, watches, and call stack</a></h2>
+<p>When stopped on a breakpoint:</p>
+<ul>
+<li><strong>Variables / Locals panel</strong>:
+<ul>
+<li>Shows the values of local variables in the current method.</li>
+<li>Expands objects so you can see their fields (for example, <code>player.name</code>, <code>player.score</code>).</li>
+</ul>
+</li>
+<li><strong>Watch expressions</strong>:
+<ul>
+<li>Use the <strong>Watch</strong> panel (if visible) to add an expression (e.g., <code>scores.size()</code>) and track its value as you step.</li>
+</ul>
+</li>
+<li><strong>Call stack</strong>:
+<ul>
+<li>Shows the chain of method calls that led to the current line.</li>
+<li>Clicking on a stack frame jumps to that frame’s source (often in another file).</li>
+</ul>
+</li>
+<li><strong>Console</strong>:
+<ul>
+<li>Shows printed output (<code>System.out.println</code>) and error messages.</li>
+<li>Useful for comparing <strong>print debugging</strong> with debugger‑based debugging.</li>
+</ul>
+</li>
+</ul>
+<p>You will use all of these while working through the Levels in this workshop.</p>
+<hr>
+<h2 id="8-if-something-goes-wrong"><a class="header" href="#8-if-something-goes-wrong">8. If something goes wrong</a></h2>
+<p>If the debugger seems stuck or weird:</p>
+<ol>
+<li>Click <strong>Stop</strong> to end the current run.</li>
+<li>Re‑click <strong>Debug</strong>.</li>
+<li>Make sure your breakpoints are on executable lines (not on blank lines or comments).</li>
+</ol>
+<p>If the code doesn’t look like this book:</p>
+<ol>
+<li>Re‑copy the code from the chapter into the right file.</li>
+<li>Confirm the file name and class name match exactly.</li>
+</ol>
+<p>Once everyone can set a breakpoint and step a line in <code>Main.java</code>, you are ready for <strong>Level 1</strong>.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="what-is-linux"><a class="header" href="#what-is-linux">What is Linux?</a></h1>
+<h1 id="workshop-overview--5-minutes"><a class="header" href="#workshop-overview--5-minutes">Workshop Overview (≈ 5 minutes)</a></h1>
+<p><strong>Total time goal: ≈ 50 minutes</strong></p>
+<ul>
+<li><strong>Start Guide</strong> – 5 minutes (already completed)</li>
+<li><strong>Level 1 – Reading Errors</strong> – 10 minutes</li>
+<li><strong>Level 2 – Debugger Basics</strong> – 12 minutes</li>
+<li><strong>Level 3 – Multi‑File Debugging</strong> – 13 minutes</li>
+<li><strong>Level 4 – Layered Bugs</strong> – 10 minutes (stretch / as time allows)</li>
+</ul>
+<hr>
+<h2 id="goals"><a class="header" href="#goals">Goals</a></h2>
+<p>By the end of this workshop, you should be comfortable with:</p>
+<ul>
+<li><strong>Finding and understanding</strong>:
+<ul>
+<li>Compile‑time errors</li>
+<li>Runtime exceptions</li>
+<li>Logic bugs (wrong behavior, no crash)</li>
+</ul>
+</li>
+<li><strong>Using the debugger</strong> (not just <code>System.out.println</code>):
+<ul>
+<li>Setting and using <strong>breakpoints</strong></li>
+<li><strong>Stepping over / into / out of</strong> methods</li>
+<li>Inspecting <strong>variables</strong> and <strong>object state</strong></li>
+<li>Reading the <strong>call stack</strong> to trace where a bug starts</li>
+</ul>
+</li>
+<li><strong>Working with multiple files</strong>:
+<ul>
+<li>Stepping into helper classes</li>
+<li>Following control flow across files</li>
+<li>Fixing one bug without introducing another</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="structure-and-pacing"><a class="header" href="#structure-and-pacing">Structure and pacing</a></h2>
+<p>Each Level follows a similar pattern:</p>
+<ol>
+<li><strong>Setup</strong> – copy/paste the starter code into the right file(s).</li>
+<li><strong>Run and observe</strong> – see what error or wrong behavior appears.</li>
+<li><strong>Investigate</strong> – use the debugger (and sometimes print statements) to narrow down the issue.</li>
+<li><strong>Fix</strong> – change the code to correct the bug.</li>
+<li><strong>Reflect</strong> – short questions to connect the bug to a concept.</li>
+</ol>
+<p><strong>Instructor suggestion</strong>:</p>
+<ul>
+<li>Pause briefly between Levels to:
+<ul>
+<li>Ask a couple of check‑in questions.</li>
+<li>Share a “live” debugging demo if many students are stuck.</li>
+</ul>
+</li>
+</ul>
+<p>Solutions for all Levels are collected in the <strong>Solutions &amp; Fixes</strong> chapter so you can review them after class (or use them as backup during class).</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="how-to-install-linux"><a class="header" href="#how-to-install-linux">How to Install Linux</a></h1>
+<h1 id="level-1--reading-errors--10-minutes"><a class="header" href="#level-1--reading-errors--10-minutes">Level 1 – Reading Errors (≈ 10 minutes)</a></h1>
+<p><strong>Concepts</strong>: compile‑time vs runtime errors, error messages, stack traces, print debugging vs debugger.</p>
+<p>We will start with two small programs:</p>
+<ul>
+<li><code>BuggyCalculator.java</code> – has compile‑time and runtime issues.</li>
+<li><code>BuggyLoop.java</code> – has a logic bug (off‑by‑one).</li>
+</ul>
+<hr>
+<h2 id="1-setup-the-files"><a class="header" href="#1-setup-the-files">1. Setup the files</a></h2>
+<p>Create or open these files in OnlineGDB and paste in the code below.</p>
+<h3 id="buggycalculatorjava"><a class="header" href="#buggycalculatorjava"><code>BuggyCalculator.java</code></a></h3>
+<pre><code class="language-java">public class BuggyCalculator {
+
+    // Intentionally buggy method: sometimes crashes, sometimes returns wrong result
+    public static int divide(int a, int b) {
+        // BUG 1: possible division by zero (runtime error)
+        return a / b;
+    }
+
+    public static int sumFirstThree(int[] numbers) {
+        // BUG 2: potential ArrayIndexOutOfBoundsException
+        int total = 0;
+        for (int i = 0; i &lt;= 3; i++) { // off‑by‑one AND assumes at least 4 elements
+            total += numbers[i];
+        }
+        return total;
+    }
+}
+</code></pre>
+<h3 id="buggyloopjava"><a class="header" href="#buggyloopjava"><code>BuggyLoop.java</code></a></h3>
+<pre><code class="language-java">public class BuggyLoop {
+
+    // Intentionally buggy method: tries to count from 1 to n
+    public static int countUpTo(int n) {
+        int count = 0;
+        // BUG 3: incorrect loop condition, never reaches n
+        for (int i = 1; i &lt; n; i++) {
+            count++;
+        }
+        return count;
+    }
+}
+</code></pre>
+<h3 id="mainjava"><a class="header" href="#mainjava"><code>Main.java</code></a></h3>
+<p>Replace the contents of <code>Main.java</code> with:</p>
+<pre><code class="language-java">public class Main {
+    public static void main(String[] args) {
+        // Example 1: division
+        System.out.println("Trying division...");
+        int result = BuggyCalculator.divide(10, 0);
+        System.out.println("Result: " + result);
+
+        // Example 2: sum first three
+        int[] nums = {1, 2};
+        System.out.println("Trying sumFirstThree...");
+        int sum = BuggyCalculator.sumFirstThree(nums);
+        System.out.println("Sum: " + sum);
+
+        // Example 3: loop
+        System.out.println("Trying countUpTo(5)...");
+        int count = BuggyLoop.countUpTo(5);
+        System.out.println("Count: " + count);
+    }
+}
+</code></pre>
+<hr>
+<h2 id="2-run-and-observe"><a class="header" href="#2-run-and-observe">2. Run and observe</a></h2>
+<ol>
+<li>Open <code>Main.java</code>.</li>
+<li>Click <strong>Run</strong> (not Debug yet).</li>
+<li>Watch the <strong>Console</strong> output and error messages.</li>
+</ol>
+<p><strong>Expected symptoms</strong>:</p>
+<ul>
+<li>The program should <strong>throw a runtime error</strong> (an exception) on the division line.</li>
+<li>You should see a <strong>stack trace</strong> in the console mentioning:
+<ul>
+<li>The type of exception.</li>
+<li>The line number in <code>BuggyCalculator.java</code>.</li>
+<li>The line number in <code>Main.java</code> where it was called.</li>
+</ul>
+</li>
+</ul>
+<p>If you fix that and run again, you will later see:</p>
+<ul>
+<li>Another exception from <code>sumFirstThree</code>.</li>
+<li>A <strong>logic bug</strong>: <code>countUpTo(5)</code> prints the wrong count but does not crash.</li>
+</ul>
+<hr>
+<h2 id="3-read-the-error-messages"><a class="header" href="#3-read-the-error-messages">3. Read the error messages</a></h2>
+<p>Focus on the first failure (division by zero):</p>
+<ol>
+<li>Look for the <strong>exception type</strong> (e.g., <code>java.lang.ArithmeticException</code>).</li>
+<li>Find the <strong>message</strong> (e.g., <code>/ by zero</code>).</li>
+<li>Find the <strong>topmost</strong> line from <strong>your code</strong> in the stack trace:
+<ul>
+<li>It should show <code>BuggyCalculator.divide</code> with a line number.</li>
+<li>It should show <code>Main.main</code> with a line number.</li>
+</ul>
+</li>
+</ol>
+<p>Answer (to yourself or a neighbor):</p>
+<ul>
+<li><strong>Is this a compile‑time error or a runtime error? Why?</strong></li>
+<li><strong>Which line in which file is the “root cause” line?</strong></li>
+</ul>
+<hr>
+<h2 id="4-quick-detective-work-no-debugger-yet"><a class="header" href="#4-quick-detective-work-no-debugger-yet">4. Quick detective work (no debugger yet)</a></h2>
+<p>Without changing anything, ask:</p>
+<ul>
+<li>Why might <code>b</code> be zero in <code>divide</code>?</li>
+<li>Why might <code>sumFirstThree</code> hit an out‑of‑bounds index?</li>
+</ul>
+<p>Use <strong>print debugging</strong>:</p>
+<ol>
+<li>Add <code>System.out.println("a=" + a + ", b=" + b);</code> at the start of <code>divide</code>.</li>
+<li>Add <code>System.out.println("numbers length=" + numbers.length);</code> at the start of <code>sumFirstThree</code>.</li>
+<li>Run again and see the printed values before the crash.</li>
+</ol>
+<hr>
+<h2 id="5-fix-the-obvious-runtime-bugs"><a class="header" href="#5-fix-the-obvious-runtime-bugs">5. Fix the obvious runtime bugs</a></h2>
+<p>Make the program <strong>stop crashing</strong>, but don’t worry about perfect logic yet.</p>
+<p>Suggested changes (try on your own first):</p>
+<ul>
+<li>In <code>divide</code>, guard against <code>b == 0</code>:
+<ul>
+<li>Print an error and return 0, or</li>
+<li>Throw a more descriptive exception.</li>
+</ul>
+</li>
+<li>In <code>sumFirstThree</code>, handle arrays with fewer than 3 elements.</li>
+</ul>
+<p>Once you have fixed the crashes:</p>
+<ol>
+<li>Comment out or remove the temporary <code>println</code> calls you added.</li>
+<li>Run again and confirm there are <strong>no exceptions</strong>.</li>
+</ol>
+<hr>
+<h2 id="6-find-the-logic-bug"><a class="header" href="#6-find-the-logic-bug">6. Find the logic bug</a></h2>
+<p>Now focus on <code>BuggyLoop.countUpTo(5)</code>:</p>
+<ol>
+<li>What do you <strong>expect</strong> <code>countUpTo(5)</code> to return?</li>
+<li>What does it actually print?</li>
+<li>Is this a compile‑time error, runtime error, or logic bug?</li>
+</ol>
+<p>You can:</p>
+<ul>
+<li>Add a <code>println</code> inside the loop to print <code>i</code> each time.</li>
+<li>Or (in the next Level) use the debugger to step through it.</li>
+</ul>
+<hr>
+<h2 id="7-wrapup-questions-level-1"><a class="header" href="#7-wrapup-questions-level-1">7. Wrap‑up questions (Level 1)</a></h2>
+<p>Discuss or write short answers:</p>
+<ul>
+<li><strong>What is the difference between a compile‑time error and a runtime exception?</strong></li>
+<li><strong>How does the stack trace help you find the root cause?</strong></li>
+<li><strong>When is print debugging helpful, and when might it be slower than using a debugger?</strong></li>
+</ul>
+<p>You will revisit these same bugs in <strong>Level 2</strong>, but this time with <strong>breakpoints</strong> and <strong>stepping</strong>.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="cheat-sheet"><a class="header" href="#cheat-sheet">Cheat Sheet</a></h1>
+<h1 id="level-2--debugger-basics--12-minutes"><a class="header" href="#level-2--debugger-basics--12-minutes">Level 2 – Debugger Basics (≈ 12 minutes)</a></h1>
+<p><strong>Concepts</strong>: breakpoints, stepping over/into/out, variable inspection, tracking changing state, logic bugs.</p>
+<p>We will reuse the Level 1 code, but now solve the bugs <strong>with the debugger</strong> instead of just reading messages.</p>
+<hr>
+<h2 id="1-confirm-your-code"><a class="header" href="#1-confirm-your-code">1. Confirm your code</a></h2>
+<p>You should still have:</p>
+<ul>
+<li><code>BuggyCalculator.java</code></li>
+<li><code>BuggyLoop.java</code></li>
+<li><code>Main.java</code></li>
+</ul>
+<p>If you already fixed the code in Level 1, <strong>temporarily undo those fixes</strong> (or paste the original versions from Level 1) so that:</p>
+<ul>
+<li><code>divide</code> can still divide by zero.</li>
+<li><code>sumFirstThree</code> still loops to <code>i &lt;= 3</code>.</li>
+<li><code>countUpTo</code> still uses <code>for (int i = 1; i &lt; n; i++)</code>.</li>
+</ul>
+<p>We want the bugs back so we can practice debugging them.</p>
+<hr>
+<h2 id="2-set-your-first-breakpoint"><a class="header" href="#2-set-your-first-breakpoint">2. Set your first breakpoint</a></h2>
+<ol>
+<li>Open <code>Main.java</code>.</li>
+<li>Click in the gutter on the line:
+<ul>
+<li><code>int result = BuggyCalculator.divide(10, 0);</code></li>
+</ul>
+</li>
+<li>You should see a <strong>red dot</strong> (breakpoint) next to that line.</li>
+</ol>
+<p>Start the debugger:</p>
+<ol>
+<li>Click <strong>Debug</strong>.</li>
+<li>When execution pauses, the breakpoint line will be highlighted.</li>
+</ol>
+<hr>
+<h2 id="3-step-over-and-inspect-variables"><a class="header" href="#3-step-over-and-inspect-variables">3. Step over and inspect variables</a></h2>
+<p>When paused at the breakpoint:</p>
+<ol>
+<li>Look at the <strong>Variables/Locals</strong> panel:
+<ul>
+<li>You should see <code>args</code> and any local variables.</li>
+</ul>
+</li>
+<li>Click <strong>Step Over</strong>:
+<ul>
+<li>This executes the <code>divide</code> call and <strong>moves to the next line</strong> (or throws an exception).</li>
+</ul>
+</li>
+</ol>
+<p>If an exception is thrown:</p>
+<ul>
+<li>Notice how the debugger shows the <strong>line that crashed</strong>.</li>
+<li>Compare to the stack trace from Level 1.</li>
+</ul>
+<p>Repeat, but this time:</p>
+<ol>
+<li>Set a breakpoint inside <code>BuggyCalculator.divide</code>, on the line <code>return a / b;</code>.</li>
+<li>Start <strong>Debug</strong> again.</li>
+<li>The debugger will stop inside <code>divide</code>.</li>
+</ol>
+<p>Use the debugger to answer:</p>
+<ul>
+<li>What are the values of <code>a</code> and <code>b</code> right before the division?</li>
+<li>What happens if <code>b</code> is zero?</li>
+</ul>
+<hr>
+<h2 id="4-step-into-another-method"><a class="header" href="#4-step-into-another-method">4. Step into another method</a></h2>
+<p>Practice <strong>Step Into</strong> and <strong>Step Out</strong> with <code>sumFirstThree</code>:</p>
+<ol>
+<li>Set a breakpoint in <code>Main.main</code> on:
+<ul>
+<li><code>int sum = BuggyCalculator.sumFirstThree(nums);</code></li>
+</ul>
+</li>
+<li>Start <strong>Debug</strong>.</li>
+<li>When paused on this line, click <strong>Step Into</strong>.</li>
+</ol>
+<p>You should now be inside <code>BuggyCalculator.sumFirstThree</code>.</p>
+<p>While stepping through the loop:</p>
+<ol>
+<li>Watch <code>i</code>, <code>total</code>, and <code>numbers.length</code> in the Variables panel.</li>
+<li>Use <strong>Step Over</strong> to run each iteration.</li>
+<li>Notice when <code>i</code> becomes an invalid index.</li>
+</ol>
+<p>Optional: add a <strong>Watch</strong> expression (if available) for <code>numbers[i]</code>.</p>
+<p>When you understand why it crashes:</p>
+<ol>
+<li>Click <strong>Stop</strong> to end the debugging session.</li>
+<li>Fix <code>sumFirstThree</code> so it:
+<ul>
+<li>Does not crash when the array is short.</li>
+<li>Still correctly sums up to the first 3 items when they exist.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="5-debugging-a-logic-bug-with-stepping"><a class="header" href="#5-debugging-a-logic-bug-with-stepping">5. Debugging a logic bug with stepping</a></h2>
+<p>Now fix <code>BuggyLoop.countUpTo</code> <strong>using the debugger</strong>, not just by staring at the code.</p>
+<ol>
+<li>Set a breakpoint in <code>Main</code> on:
+<ul>
+<li><code>int count = BuggyLoop.countUpTo(5);</code></li>
+</ul>
+</li>
+<li>Click <strong>Debug</strong>.</li>
+<li>When paused, click <strong>Step Into</strong> to enter <code>countUpTo</code>.</li>
+<li>Use <strong>Step Over</strong> to step through each loop iteration.</li>
+</ol>
+<p>Observe:</p>
+<ul>
+<li>How many times does the loop run?</li>
+<li>What are the values of <code>i</code> and <code>count</code> at each step?</li>
+</ul>
+<p>Use this observation to:</p>
+<ol>
+<li>Decide what the loop <em>should</em> do.</li>
+<li>Update the loop condition so <code>countUpTo(5)</code> returns the expected value.</li>
+</ol>
+<p>Re‑run with the debugger to confirm the fix.</p>
+<hr>
+<h2 id="6-compare-debugger-vs-print-debugging"><a class="header" href="#6-compare-debugger-vs-print-debugging">6. Compare debugger vs print debugging</a></h2>
+<p>Briefly discuss or think about:</p>
+<ul>
+<li>When was the debugger <strong>faster</strong> or clearer than <code>System.out.println</code>?</li>
+<li>When might print debugging still be useful?</li>
+<li>How did stepping into <code>sumFirstThree</code> and <code>countUpTo</code> help you see the bug more clearly?</li>
+</ul>
+<p>You are now ready to debug across <strong>multiple files and classes</strong> in <strong>Level 3</strong>.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="level-3--multifile-debugging--13-minutes"><a class="header" href="#level-3--multifile-debugging--13-minutes">Level 3 – Multi‑File Debugging (≈ 13 minutes)</a></h1>
+<p><strong>Concepts</strong>: stepping between files, multi‑file logic bugs, call stack, unexpected control flow, bad method arguments.</p>
+<p>We will work with a tiny “scoreboard” app:</p>
+<ul>
+<li><code>GameApp.java</code> – main program that simulates a few players.</li>
+<li><code>Player.java</code> – represents a player and their scores.</li>
+<li><code>ScoreUtils.java</code> – helper methods with bugs (logic + bad arguments).</li>
+</ul>
+<hr>
+<h2 id="1-setup-the-files-1"><a class="header" href="#1-setup-the-files-1">1. Setup the files</a></h2>
+<p>Create or open these files and paste in the code.</p>
+<h3 id="playerjava"><a class="header" href="#playerjava"><code>Player.java</code></a></h3>
+<pre><code class="language-java">public class Player {
+    private String name;
+    private int[] scores;
+
+    public Player(String name, int[] scores) {
+        this.name = name;
+        this.scores = scores;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int[] getScores() {
+        return scores;
+    }
+}
+</code></pre>
+<h3 id="scoreutilsjava"><a class="header" href="#scoreutilsjava"><code>ScoreUtils.java</code></a></h3>
+<pre><code class="language-java">public class ScoreUtils {
+
+    // BUG 1: incorrect average calculation (logic bug)
+    public static double averageScore(int[] scores) {
+        int total = 0;
+        for (int i = 0; i &lt; scores.length; i++) {
+            total += scores[i];
+        }
+        // BUG: divides by (length + 1), making average too small
+        return (double) total / (scores.length + 1);
+    }
+
+    // BUG 2: unexpected control flow when scores is empty
+    public static int bestScore(int[] scores) {
+        // BUG: returns 0 even if there are negative scores or empty array
+        int best = 0;
+        for (int score : scores) {
+            if (score &gt; best) {
+                best = score;
+            }
+        }
+        return best;
+    }
+
+    // BUG 3: bad method arguments / null handling
+    public static int totalScore(Player player) {
+        // BUG: does not guard against null player or null scores
+        int sum = 0;
+        for (int s : player.getScores()) {
+            sum += s;
+        }
+        return sum;
+    }
+}
+</code></pre>
+<h3 id="gameappjava"><a class="header" href="#gameappjava"><code>GameApp.java</code></a></h3>
+<pre><code class="language-java">public class GameApp {
+    public static void main(String[] args) {
+        Player alice = new Player("Alice", new int[] {10, 15, 20});
+        Player bob = new Player("Bob", new int[] {5, 7});
+        Player charlie = new Player("Charlie", new int[] {}); // empty scores
+
+        System.out.println("=== Scoreboard ===");
+
+        printPlayerStats(alice);
+        printPlayerStats(bob);
+        printPlayerStats(charlie);
+
+        // Intentionally pass a null player to show a null‑related bug
+        Player mystery = null;
+        System.out.println("\nMystery total score (should handle null):");
+        int total = ScoreUtils.totalScore(mystery);
+        System.out.println("Total: " + total);
+    }
+
+    private static void printPlayerStats(Player player) {
+        int[] scores = player.getScores();
+
+        double avg = ScoreUtils.averageScore(scores);
+        int best = ScoreUtils.bestScore(scores);
+        int total = ScoreUtils.totalScore(player);
+
+        System.out.println("Player: " + player.getName());
+        System.out.println("  Average: " + avg);
+        System.out.println("  Best: " + best);
+        System.out.println("  Total: " + total);
+        System.out.println();
+    }
+}
+</code></pre>
+<p>Make sure:</p>
+<ul>
+<li>All three files are saved.</li>
+<li><code>GameApp.java</code> contains a <code>main</code> method and will be your entry point.</li>
+</ul>
+<hr>
+<h2 id="2-run-and-observe-1"><a class="header" href="#2-run-and-observe-1">2. Run and observe</a></h2>
+<ol>
+<li>Open <code>GameApp.java</code>.</li>
+<li>Click <strong>Run</strong>.</li>
+</ol>
+<p><strong>Expected symptoms</strong>:</p>
+<ul>
+<li>The program may:
+<ul>
+<li>Print suspicious/incorrect averages.</li>
+<li>Print wrong best scores (especially for negative or empty sets).</li>
+<li>Crash with a <code>NullPointerException</code> when using the <code>mystery</code> player.</li>
+</ul>
+</li>
+</ul>
+<p>Focus on:</p>
+<ul>
+<li>Which output <strong>looks</strong> wrong?</li>
+<li>Where does the stack trace say the null pointer came from?</li>
+</ul>
+<hr>
+<h2 id="3-step-across-files-with-the-debugger"><a class="header" href="#3-step-across-files-with-the-debugger">3. Step across files with the debugger</a></h2>
+<p>Now use the debugger to see <strong>how control flows</strong> between files.</p>
+<ol>
+<li>Set a breakpoint on the first line of <code>main</code> in <code>GameApp</code>.</li>
+<li>Click <strong>Debug</strong>.</li>
+<li>When paused, click <strong>Step Over</strong> a few times to:
+<ul>
+<li>Create the players.</li>
+<li>Reach the first call to <code>printPlayerStats</code>.</li>
+</ul>
+</li>
+<li>When you reach <code>printPlayerStats(alice);</code>, click <strong>Step Into</strong>.</li>
+</ol>
+<p>You should now be in <code>printPlayerStats</code>:</p>
+<ol>
+<li>Step until you reach <code>double avg = ScoreUtils.averageScore(scores);</code>.</li>
+<li>Use <strong>Step Into</strong> to jump into <code>ScoreUtils.averageScore</code>.</li>
+<li>Watch <code>scores.length</code>, <code>total</code>, and the returned value in the Variables panel.</li>
+</ol>
+<p>Answer:</p>
+<ul>
+<li>Why is the average too small?</li>
+<li>Which line in which file is the true bug?</li>
+</ul>
+<hr>
+<h2 id="4-use-the-call-stack-to-reason-about-a-crash"><a class="header" href="#4-use-the-call-stack-to-reason-about-a-crash">4. Use the call stack to reason about a crash</a></h2>
+<p>Trigger the <code>NullPointerException</code> on <code>mystery</code>:</p>
+<ol>
+<li>Set a breakpoint on the line <code>int total = ScoreUtils.totalScore(mystery);</code> in <code>main</code>.</li>
+<li>Start <strong>Debug</strong> and let execution run to that breakpoint.</li>
+<li><strong>Step Into</strong> to enter <code>ScoreUtils.totalScore</code>.</li>
+<li>When the exception occurs, look at:
+<ul>
+<li>The <strong>current line</strong>.</li>
+<li>The <strong>Call Stack</strong> panel.</li>
+</ul>
+</li>
+</ol>
+<p>Questions:</p>
+<ul>
+<li>Which expression is actually null?</li>
+<li>How did that null value get there? (Use the call stack to go “up” one frame.)</li>
+</ul>
+<p>Fix <code>totalScore</code> so that:</p>
+<ul>
+<li>It <strong>does not crash</strong> when <code>player</code> is null or <code>player.getScores()</code> is null.</li>
+<li>It returns a reasonable value (for example, <code>0</code>) in those cases.</li>
+</ul>
+<p>Run again to confirm the crash is gone.</p>
+<hr>
+<h2 id="5-fix-the-best-score-logic"><a class="header" href="#5-fix-the-best-score-logic">5. Fix the best score logic</a></h2>
+<p>Currently, <code>bestScore</code> assumes:</p>
+<ul>
+<li><code>best</code> starts at <code>0</code>.</li>
+<li>Any score greater than <code>0</code> is the best.</li>
+</ul>
+<p>This fails when:</p>
+<ul>
+<li>All scores are negative.</li>
+<li>The array is empty.</li>
+</ul>
+<p>Use breakpoints and stepping to:</p>
+<ol>
+<li>Pause inside <code>bestScore</code>.</li>
+<li>Watch how <code>best</code> changes as you loop through <code>scores</code>.</li>
+<li>Decide what should happen when <code>scores</code> is empty.</li>
+</ol>
+<p>Update <code>bestScore</code> to:</p>
+<ul>
+<li>Handle empty arrays gracefully (for example, return <code>0</code> or a sentinel like <code>Integer.MIN_VALUE</code>).</li>
+<li>Correctly track the maximum value even when all scores are negative.</li>
+</ul>
+<p>Re‑run the program and check:</p>
+<ul>
+<li>Do the printed “Best” values now match your expectations?</li>
+</ul>
+<hr>
+<h2 id="6-reflection-level-3"><a class="header" href="#6-reflection-level-3">6. Reflection (Level 3)</a></h2>
+<p>Discuss or write:</p>
+<ul>
+<li>How did stepping <strong>between files</strong> help you understand the bugs?</li>
+<li>When reading a stack trace, how do you choose which frame to investigate first?</li>
+<li>How can you prevent null‑related bugs like the one in <code>totalScore</code>?</li>
+</ul>
+<p>In <strong>Level 4</strong>, you will tackle a more <strong>layered scenario</strong> that combines several types of bugs.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="level-4--layered-bugs--10-minutes-stretch"><a class="header" href="#level-4--layered-bugs--10-minutes-stretch">Level 4 – Layered Bugs (≈ 10 minutes, stretch)</a></h1>
+<p><strong>Concepts</strong>: layered bugs, unexpected control flow, combining debugger tools, fixing bugs without breaking other behavior.</p>
+<p>This Level uses a small “level loader” that:</p>
+<ul>
+<li>Reads a level number from a (fake) string.</li>
+<li>Loads some enemy counts.</li>
+<li>Computes total difficulty.</li>
+</ul>
+<p>The code has:</p>
+<ul>
+<li>A <strong>runtime bug</strong> (exception).</li>
+<li>A <strong>logic bug</strong>.</li>
+<li>A bug where <strong>stepping into another file</strong> is useful.</li>
+</ul>
+<hr>
+<h2 id="1-setup-the-files-2"><a class="header" href="#1-setup-the-files-2">1. Setup the files</a></h2>
+<p>We’ll add two more files:</p>
+<ul>
+<li><code>LevelLoader.java</code></li>
+<li><code>InputParser.java</code></li>
+</ul>
+<h3 id="inputparserjava"><a class="header" href="#inputparserjava"><code>InputParser.java</code></a></h3>
+<pre><code class="language-java">public class InputParser {
+
+    // Parses level from an input string like "level:3"
+    public static int parseLevel(String input) {
+        // BUG 1: assumes the string always has "level:" and a valid number
+        String[] parts = input.split(":");
+        String numberPart = parts[1]; // can throw if input is wrong
+
+        // BUG 2: doesn't trim spaces, can cause NumberFormatException
+        return Integer.parseInt(numberPart);
+    }
+}
+</code></pre>
+<h3 id="levelloaderjava"><a class="header" href="#levelloaderjava"><code>LevelLoader.java</code></a></h3>
+<pre><code class="language-java">public class LevelLoader {
+
+    // Returns an array of enemy counts for the given level.
+    public static int[] loadEnemiesForLevel(int level) {
+        if (level == 1) {
+            return new int[] {2, 3};
+        } else if (level == 2) {
+            return new int[] {4, 4, 5};
+        } else if (level == 3) {
+            return new int[] {10};
+        } else {
+            // BUG 3: unexpected control flow – returns null instead of empty array
+            return null;
+        }
+    }
+
+    // Computes a "difficulty" score from enemy counts.
+    public static int computeDifficulty(int[] enemies) {
+        int difficulty = 0;
+
+        // BUG 4: off‑by‑one and assumes enemies is never null
+        for (int i = 0; i &lt;= enemies.length; i++) {
+            difficulty += enemies[i] * (i + 1);
+        }
+
+        return difficulty;
+    }
+}
+</code></pre>
+<h3 id="update-gameappjava"><a class="header" href="#update-gameappjava">Update <code>GameApp.java</code></a></h3>
+<p>Add this method to the bottom of <code>GameApp</code> (inside the class, after <code>printPlayerStats</code>):</p>
+<pre><code class="language-java">    private static void demoLevels() {
+        System.out.println("=== Level Loader Demo ===");
+
+        String input = "level: 4"; // note the space before 4
+        System.out.println("Parsing input: \"" + input + "\"");
+
+        int level = InputParser.parseLevel(input);
+        System.out.println("Parsed level: " + level);
+
+        int[] enemies = LevelLoader.loadEnemiesForLevel(level);
+        int difficulty = LevelLoader.computeDifficulty(enemies);
+
+        System.out.println("Total difficulty for level " + level + ": " + difficulty);
+    }
+</code></pre>
+<p>Then, in <code>main</code>, after the <code>mystery</code> player block, add:</p>
+<pre><code class="language-java">        demoLevels();
+</code></pre>
+<p>Make sure <code>GameApp.java</code> now:</p>
+<ul>
+<li>Uses <code>Player</code>, <code>ScoreUtils</code>, <code>LevelLoader</code>, and <code>InputParser</code>.</li>
+</ul>
+<hr>
+<h2 id="2-run-and-observe-2"><a class="header" href="#2-run-and-observe-2">2. Run and observe</a></h2>
+<ol>
+<li>Open <code>GameApp.java</code>.</li>
+<li>Click <strong>Run</strong>.</li>
+</ol>
+<p><strong>Expected symptoms</strong>:</p>
+<ul>
+<li>The scoreboard section should behave as in Level 3 (assuming you fixed it).</li>
+<li>The Level Loader demo will likely:
+<ul>
+<li>Throw a <code>NumberFormatException</code> or <code>NullPointerException</code>.</li>
+<li>Or print a strange difficulty.</li>
+</ul>
+</li>
+</ul>
+<p>Look at:</p>
+<ul>
+<li>The <strong>exception type</strong>.</li>
+<li>The <strong>stack trace</strong>: which method and line caused it?</li>
+</ul>
+<hr>
+<h2 id="3-step-through-the-layered-flow"><a class="header" href="#3-step-through-the-layered-flow">3. Step through the layered flow</a></h2>
+<p>Use the debugger to trace the whole path:</p>
+<ol>
+<li>Set a breakpoint at the first line of <code>demoLevels</code>.</li>
+<li>Click <strong>Debug</strong>.</li>
+<li>When paused:
+<ul>
+<li><strong>Step Over</strong> the print statements.</li>
+<li>Use <strong>Step Into</strong> on <code>InputParser.parseLevel(input)</code>.</li>
+</ul>
+</li>
+</ol>
+<p>Inside <code>parseLevel</code>:</p>
+<ol>
+<li>Inspect <code>input</code>, <code>parts</code>, and <code>numberPart</code>.</li>
+<li>Step line‑by‑line and watch for:
+<ul>
+<li><code>ArrayIndexOutOfBoundsException</code> on <code>parts[1]</code>.</li>
+<li><code>NumberFormatException</code> on <code>Integer.parseInt</code>.</li>
+</ul>
+</li>
+</ol>
+<p>Once you understand the problem, stop debugging and <strong>fix <code>parseLevel</code></strong> to:</p>
+<ul>
+<li>Validate the input format.</li>
+<li>Trim whitespace.</li>
+<li>Return a reasonable default (for example <code>1</code>) or throw a clearer exception.</li>
+</ul>
+<p>Run again with the debugger to confirm the parsing step works.</p>
+<hr>
+<h2 id="4-follow-the-null--offbyone-bugs"><a class="header" href="#4-follow-the-null--offbyone-bugs">4. Follow the null / off‑by‑one bugs</a></h2>
+<p>Next, set a breakpoint on:</p>
+<pre><code class="language-java">int[] enemies = LevelLoader.loadEnemiesForLevel(level);
+</code></pre>
+<ol>
+<li>Debug again and <strong>Step Into</strong> <code>LevelLoader.loadEnemiesForLevel</code>.</li>
+<li>For the given <code>level</code>, see which branch runs and what it returns.</li>
+<li>Step back to <code>demoLevels</code> and then <strong>Step Into</strong> <code>computeDifficulty</code>.</li>
+</ol>
+<p>Inside <code>computeDifficulty</code>:</p>
+<ol>
+<li>Watch the values of <code>i</code>, <code>enemies.length</code>, and <code>difficulty</code>.</li>
+<li>See what happens when <code>i</code> equals <code>enemies.length</code>.</li>
+<li>If <code>enemies</code> is null, notice how that changes things.</li>
+</ol>
+<p>Fix the bugs by:</p>
+<ul>
+<li>Making <code>loadEnemiesForLevel</code> return a <strong>non‑null</strong> array, even for unknown levels (for example, an empty <code>int[]</code>).</li>
+<li>Adjusting the <code>for</code> loop in <code>computeDifficulty</code> so it:
+<ul>
+<li>Does not go out of bounds.</li>
+<li>Handles <code>enemies</code> being null or empty safely.</li>
+</ul>
+</li>
+</ul>
+<p>Re‑run and confirm:</p>
+<ul>
+<li>No exceptions occur.</li>
+<li>The printed difficulty matches your expectations.</li>
+</ul>
+<hr>
+<h2 id="5-avoid-introducing-new-bugs"><a class="header" href="#5-avoid-introducing-new-bugs">5. Avoid introducing new bugs</a></h2>
+<p>After each fix, <strong>re‑run the whole program</strong>, not just the Level Loader demo:</p>
+<ul>
+<li>Check that:
+<ul>
+<li>The scoreboard output (from Level 3) still looks correct.</li>
+<li>No new exceptions appear.</li>
+</ul>
+</li>
+</ul>
+<p>This is a realistic part of debugging:</p>
+<ul>
+<li>Fix one bug.</li>
+<li>Run the full program.</li>
+<li>Make sure you didn’t break something else.</li>
+</ul>
+<hr>
+<h2 id="6-reflection-level-4"><a class="header" href="#6-reflection-level-4">6. Reflection (Level 4)</a></h2>
+<p>Short prompts:</p>
+<ul>
+<li>What kinds of bugs did you see in this Level (compile‑time, runtime, logic)?</li>
+<li>How did stepping <strong>into</strong> helper methods (<code>parseLevel</code>, <code>loadEnemiesForLevel</code>, <code>computeDifficulty</code>) help?</li>
+<li>What habits can help avoid layered bugs (e.g., validating inputs, returning empty collections instead of null)?</li>
+</ul>
+<p>You can compare your fixes to the suggested ones in <strong>Solutions &amp; Fixes</strong>.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="solutions--fixes"><a class="header" href="#solutions--fixes">Solutions &amp; Fixes</a></h1>
+<p>This section shows one set of possible fixes for the workshop exercises.<br>Your exact solutions may differ slightly as long as they:</p>
+<ul>
+<li>Remove the crashes.</li>
+<li>Produce correct behavior.</li>
+<li>Keep the code readable.</li>
+</ul>
+<hr>
+<h2 id="level-1--reading-errors"><a class="header" href="#level-1--reading-errors">Level 1 – Reading Errors</a></h2>
+<h3 id="buggycalculatordivide"><a class="header" href="#buggycalculatordivide"><code>BuggyCalculator.divide</code></a></h3>
+<p>One reasonable fix:</p>
+<pre><code class="language-java">public static int divide(int a, int b) {
+    if (b == 0) {
+        // FIX: prevent division by zero and return a safe default
+        System.out.println("Cannot divide " + a + " by zero.");
+        return 0; // or throw new IllegalArgumentException("b must not be zero");
+    }
+    return a / b;
+}
+</code></pre>
+<h3 id="buggycalculatorsumfirstthree"><a class="header" href="#buggycalculatorsumfirstthree"><code>BuggyCalculator.sumFirstThree</code></a></h3>
+<p>Handle short arrays safely:</p>
+<pre><code class="language-java">public static int sumFirstThree(int[] numbers) {
+    if (numbers == null || numbers.length == 0) {
+        // FIX: handle null or empty arrays without throwing an exception
+        return 0;
+    }
+
+    int limit = Math.min(3, numbers.length);
+    int total = 0;
+    for (int i = 0; i &lt; limit; i++) {
+        // FIX: stop before we run past the end of the array
+        total += numbers[i];
+    }
+    return total;
+}
+</code></pre>
+<h3 id="buggyloopcountupto"><a class="header" href="#buggyloopcountupto"><code>BuggyLoop.countUpTo</code></a></h3>
+<p>If the intent is to count how many numbers from 1 to <code>n</code> (inclusive):</p>
+<pre><code class="language-java">public static int countUpTo(int n) {
+    int count = 0;
+    for (int i = 1; i &lt;= n; i++) {
+        // FIX: loop up to and including n so the count matches the intent
+        count++;
+    }
+    return count;
+}
+</code></pre>
+<hr>
+<h2 id="level-2--debugger-basics"><a class="header" href="#level-2--debugger-basics">Level 2 – Debugger Basics</a></h2>
+<p>The key fixes here are the same as Level 1, but discovered using:</p>
+<ul>
+<li>Breakpoints.</li>
+<li>Stepping.</li>
+<li>Variable inspection.</li>
+</ul>
+<p>See the Level 1 solutions above.</p>
+<hr>
+<h2 id="level-3--multifile-debugging"><a class="header" href="#level-3--multifile-debugging">Level 3 – Multi‑File Debugging</a></h2>
+<h3 id="scoreutilsaveragescore"><a class="header" href="#scoreutilsaveragescore"><code>ScoreUtils.averageScore</code></a></h3>
+<p>Correct the average calculation:</p>
+<pre><code class="language-java">public static double averageScore(int[] scores) {
+    if (scores == null || scores.length == 0) {
+        // FIX: avoid dividing by zero and define a default average
+        return 0.0;
+    }
+
+    int total = 0;
+    for (int score : scores) {
+        total += score;
+    }
+    // FIX: divide by the correct length to get an accurate average
+    return (double) total / scores.length;
+}
+</code></pre>
+<h3 id="scoreutilsbestscore"><a class="header" href="#scoreutilsbestscore"><code>ScoreUtils.bestScore</code></a></h3>
+<p>Handle empty arrays and negative scores:</p>
+<pre><code class="language-java">public static int bestScore(int[] scores) {
+    if (scores == null || scores.length == 0) {
+        // FIX: define behavior for empty or null score lists
+        return 0; // or throw an exception, depending on requirements
+    }
+
+    int best = scores[0];
+    for (int i = 1; i &lt; scores.length; i++) {
+        // FIX: compare all elements starting from index 1
+        if (scores[i] &gt; best) {
+            best = scores[i];
+        }
+    }
+    return best;
+}
+</code></pre>
+<h3 id="scoreutilstotalscore"><a class="header" href="#scoreutilstotalscore"><code>ScoreUtils.totalScore</code></a></h3>
+<p>Defensive null handling:</p>
+<pre><code class="language-java">public static int totalScore(Player player) {
+    if (player == null || player.getScores() == null) {
+        // FIX: return a safe default when player or scores are missing
+        return 0;
+    }
+
+    int sum = 0;
+    for (int s : player.getScores()) {
+        sum += s;
+    }
+    return sum;
+}
+</code></pre>
+<hr>
+<h2 id="level-4--layered-bugs"><a class="header" href="#level-4--layered-bugs">Level 4 – Layered Bugs</a></h2>
+<h3 id="inputparserparselevel"><a class="header" href="#inputparserparselevel"><code>InputParser.parseLevel</code></a></h3>
+<p>A safer implementation:</p>
+<pre><code class="language-java">public static int parseLevel(String input) {
+    if (input == null) {
+        // FIX: handle null input by falling back to level 1
+        return 1; // default level
+    }
+
+    String trimmed = input.trim(); // e.g., "level: 4"
+    String[] parts = trimmed.split(":");
+    if (parts.length &lt; 2) {
+        // FIX: validate the basic "label:number" format
+        return 1; // or throw new IllegalArgumentException("Invalid level format");
+    }
+
+    String numberPart = parts[1].trim();
+
+    try {
+        // FIX: trim and safely parse the numeric part
+        return Integer.parseInt(numberPart);
+    } catch (NumberFormatException e) {
+        // FIX: use a safe default when parsing fails instead of crashing
+        return 1;
+    }
+}
+</code></pre>
+<h3 id="levelloaderloadenemiesforlevel"><a class="header" href="#levelloaderloadenemiesforlevel"><code>LevelLoader.loadEnemiesForLevel</code></a></h3>
+<p>Return a non‑null array:</p>
+<pre><code class="language-java">public static int[] loadEnemiesForLevel(int level) {
+    if (level == 1) {
+        return new int[] {2, 3};
+    } else if (level == 2) {
+        return new int[] {4, 4, 5};
+    } else if (level == 3) {
+        return new int[] {10};
+    } else {
+        // FIX: return an empty array instead of null for unknown levels
+        return new int[0];
+    }
+}
+</code></pre>
+<h3 id="levelloadercomputedifficulty"><a class="header" href="#levelloadercomputedifficulty"><code>LevelLoader.computeDifficulty</code></a></h3>
+<p>Fix the off‑by‑one and null handling:</p>
+<pre><code class="language-java">public static int computeDifficulty(int[] enemies) {
+    if (enemies == null || enemies.length == 0) {
+        // FIX: define a difficulty of 0 when there are no enemies
+        return 0;
+    }
+
+    int difficulty = 0;
+    for (int i = 0; i &lt; enemies.length; i++) {
+        // FIX: stop at enemies.length - 1 to avoid going out of bounds
+        difficulty += enemies[i] * (i + 1);
+    }
+    return difficulty;
+}
+</code></pre>
+<hr>
+<h2 id="putting-it-all-together"><a class="header" href="#putting-it-all-together">Putting it all together</a></h2>
+<p>After applying these fixes:</p>
+<ul>
+<li>The programs should compile and run without exceptions.</li>
+<li>The scoreboard should report sensible averages, best scores, and totals.</li>
+<li>The level loader should parse inputs, avoid null issues, and compute difficulty correctly.</li>
+</ul>
+<p>If your results differ, use the debugger again to:</p>
+<ul>
+<li>Set breakpoints in the fixed methods.</li>
+<li>Step through and verify that variable values match your expectations.</li>
+</ul>
 
                     </main>
 
