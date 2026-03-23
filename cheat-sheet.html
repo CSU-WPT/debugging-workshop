@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-db4f795d.js";
+            window.path_to_searchindex_js = "searchindex-73abd356.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-b19f64b8.js"></script>
@@ -175,82 +175,6 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="cheat-sheet"><a class="header" href="#cheat-sheet">Cheat Sheet</a></h1>
-<h2 id="basic-linux-commands"><a class="header" href="#basic-linux-commands">Basic Linux Commands</a></h2>
-<h3 id="ssh-and-file-transfer"><a class="header" href="#ssh-and-file-transfer">SSH and File Transfer</a></h3>
-<h3 id="ssh---secure-shell"><a class="header" href="#ssh---secure-shell">SSH - Secure Shell</a></h3>
-<p><code>ssh [username]@[server].eecs.csuohio.edu</code></p>
-<p>Allows you to remotely connect to a school server.</p>
-<p>If outside the school Wi-Fi, you can only connect to <strong>spirit</strong> or <strong>grail</strong> first.</p>
-<p>Once connected to <strong>spirit</strong> or <strong>grail</strong>, you can SSH into any other school server.</p>
-<p><strong>grail</strong> is for turning in assignments only, not for work.</p>
-<h3 id="scp---secure-copy"><a class="header" href="#scp---secure-copy">SCP - Secure Copy</a></h3>
-<p><code>scp [file] [username]@[server].eecs.csuohio.edu:[directory]</code></p>
-<p>Copies a file from your computer to the school server.</p>
-<p>Use <code>~</code> for your home directory or specify a full path, e.g., <code>~/CIS340/Assignment1</code>.</p>
-<p>All servers share the same directories and files.</p>
-<h3 id="file-and-directory-management"><a class="header" href="#file-and-directory-management">File and Directory Management</a></h3>
-<h3 id="list-directory-contents"><a class="header" href="#list-directory-contents">List Directory Contents</a></h3>
-<p><code>ls</code></p>
-<p>Displays the contents of your current directory (folder).</p>
-<p>You start in your home directory upon connecting to a school server.</p>
-<h3 id="create-a-directory"><a class="header" href="#create-a-directory">Create a Directory</a></h3>
-<p><code>mkdir [name]</code></p>
-<p>Creates a new directory (folder).</p>
-<p>Useful for organizing coursework, e.g., <code>mkdir CIS340</code>.</p>
-<h3 id="remove-files-or-directories"><a class="header" href="#remove-files-or-directories">Remove Files or Directories</a></h3>
-<p><code>rm [directory/file]</code></p>
-<p>Deletes a file or directory completely, including all its contents.</p>
-<h3 id="change-directory"><a class="header" href="#change-directory">Change Directory</a></h3>
-<p><code>cd [directory]</code></p>
-<p>Navigates into a directory.</p>
-<p>Use <code>cd ..</code> to move up one directory level.</p>
-<h3 id="create-a-file--update-timestamp"><a class="header" href="#create-a-file--update-timestamp">Create a File / Update Timestamp</a></h3>
-<p><code>touch [file]</code></p>
-<p>Updates the last accessed timestamp of a file.</p>
-<p>If the file does not exist, it creates a new empty file.</p>
-<h3 id="editing-and-modifying-files"><a class="header" href="#editing-and-modifying-files">Editing and Modifying Files</a></h3>
-<h3 id="text-editor-nano"><a class="header" href="#text-editor-nano">Text Editor (Nano)</a></h3>
-<p><code>nano [file]</code></p>
-<p>Opens a simple built-in text editor to modify text files.</p>
-<h3 id="echo-text-output"><a class="header" href="#echo-text-output">Echo Text Output</a></h3>
-<p><code>echo [string]</code></p>
-<p>Displays a string in the terminal.</p>
-<p><code>echo [string] &gt; [file]</code></p>
-<p>Writes the string into a file (overwrites existing content).</p>
-<p><code>echo [string] &gt;&gt; [file]</code></p>
-<p>Appends the string to the end of an existing file.</p>
-<h3 id="move--rename-files-and-directories"><a class="header" href="#move--rename-files-and-directories">Move / Rename Files and Directories</a></h3>
-<p><code>mv [source] [destination]</code></p>
-<p>Moves a file or directory to another location.</p>
-<p>Moving a file to another file renames it.</p>
-<p>Moving a file to a directory places it inside that directory.</p>
-<h3 id="copy-files-and-directories"><a class="header" href="#copy-files-and-directories">Copy Files and Directories</a></h3>
-<p><code>cp [file] [destination]</code></p>
-<p>Copies a file to another file or directory.</p>
-<p>If copying to a file, it will overwrite the existing file.</p>
-<p>If copying to a directory, it keeps the original name.</p>
-<h3 id="redirection-"><a class="header" href="#redirection-">Redirection &gt;</a></h3>
-<p><code>[command] &gt; filename.txt</code></p>
-<p>Creates new file and writes the output of the command as lines of text to the new file.</p>
-<p>For example, <code>ls &gt; ls.txt</code> wites the contents of the current directory to a file named ls.txt which it puts in the current directory.</p>
-<p><code>cat &gt; catRedirect.txt</code> will write any following lines you type into catRedirect.txt (since executing <code>cat</code> by itself repeats back at you whatever you type). That output becomes the input for thr file. Press ctrl+c to exit out of the running <code>cat</code> command.</p>
-<h3 id="pipes-"><a class="header" href="#pipes-">Pipes |</a></h3>
-<p><code>[command] | [command]</code></p>
-<p>The output of the first command becomes the input of the first command.</p>
-<p>These can be chained together, so output of one command becomes the input of anouther, whose output goes to another command, so you can execute mutiple operations one file or directory in succession, each building on the next.</p>
-<h3 id="assignment-submission"><a class="header" href="#assignment-submission">Assignment Submission</a></h3>
-<h3 id="turn-in-assignments"><a class="header" href="#turn-in-assignments">Turn in Assignments</a></h3>
-<p><code>turnin -c [class] -p [assignment] [file]</code></p>
-<p>Used to submit assignments via the server.</p>
-<p>Only available on grail.</p>
-<p>Must run this command from the directory containing the file.</p>
-<p>Your professor will provide the correct parameters for each assignment.</p>
-<h3 id="exiting-the-server"><a class="header" href="#exiting-the-server">Exiting the Server</a></h3>
-<h3 id="close-connection"><a class="header" href="#close-connection">Close Connection</a></h3>
-<p><code>exit</code></p>
-<p>Logs you out of the server.</p>
-<p>Not required but recommended for good practice.</p>
-<h2 id="git-commands"><a class="header" href="#git-commands">Git commands</a></h2>
 
                     </main>
 
