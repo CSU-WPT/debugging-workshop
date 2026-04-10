@@ -2,10 +2,10 @@
 
 **Concepts**: compile‑time vs runtime errors, error messages, stack traces, print debugging vs debugger.
 
-We will start with two small programs:
+We will start with two small files:
 
-- `BuggyCalculator.java` – has compile‑time and runtime issues.
-- `BuggyLoop.java` – has a logic bug (off‑by‑one).
+- `CalculatorExercises.java`
+- `LoopExercises.java`
 
 ---
 
@@ -13,21 +13,18 @@ We will start with two small programs:
 
 Create or open these files in OnlineGDB and paste in the code below.
 
-### `BuggyCalculator.java`
+### `CalculatorExercises.java`
 
 ```java
-public class BuggyCalculator {
-
-    // Intentionally buggy method: sometimes crashes, sometimes returns wrong result
+public class CalculatorExercises {
     public static int divide(int a, int b) {
-        // BUG 1: possible division by zero (runtime error)
         return a / b;
     }
 
     public static int sumFirstThree(int[] numbers) {
-        // BUG 2: potential ArrayIndexOutOfBoundsException
+        int numberCount = (numbers == null) ? 0 : numbers.length;
         int total = 0;
-        for (int i = 0; i <= 3; i++) { // off‑by‑one AND assumes at least 4 elements
+        for (int i = 0; i <= 3; i++) {
             total += numbers[i];
         }
         return total;
@@ -35,15 +32,12 @@ public class BuggyCalculator {
 }
 ```
 
-### `BuggyLoop.java`
+### `LoopExercises.java`
 
 ```java
-public class BuggyLoop {
-
-    // Intentionally buggy method: tries to count from 1 to n
+public class LoopExercises {
     public static int countUpTo(int n) {
         int count = 0;
-        // BUG 3: incorrect loop condition, never reaches n
         for (int i = 1; i < n; i++) {
             count++;
         }
@@ -61,18 +55,18 @@ public class Main {
     public static void main(String[] args) {
         // Example 1: division
         System.out.println("Trying division...");
-        int result = BuggyCalculator.divide(10, 0);
+        int result = CalculatorExercises.divide(10, 0);
         System.out.println("Result: " + result);
 
         // Example 2: sum first three
         int[] nums = {1, 2};
         System.out.println("Trying sumFirstThree...");
-        int sum = BuggyCalculator.sumFirstThree(nums);
+        int sum = CalculatorExercises.sumFirstThree(nums);
         System.out.println("Sum: " + sum);
 
         // Example 3: loop
         System.out.println("Trying countUpTo(5)...");
-        int count = BuggyLoop.countUpTo(5);
+        int count = LoopExercises.countUpTo(5);
         System.out.println("Count: " + count);
     }
 }
@@ -91,7 +85,7 @@ public class Main {
 - The program should **throw a runtime error** (an exception) on the division line.
 - You should see a **stack trace** in the console mentioning:
   - The type of exception.
-  - The line number in `BuggyCalculator.java`.
+  - The line number in `CalculatorExercises.java`.
   - The line number in `Main.java` where it was called.
 
 If you fix that and run again, you will later see:
@@ -108,7 +102,7 @@ Focus on the first failure (division by zero):
 1. Look for the **exception type** (e.g., `java.lang.ArithmeticException`).
 2. Find the **message** (e.g., `/ by zero`).
 3. Find the **topmost** line from **your code** in the stack trace:
-   - It should show `BuggyCalculator.divide` with a line number.
+   - It should show `CalculatorExercises.divide` with a line number.
    - It should show `Main.main` with a line number.
 
 Answer (to yourself or a neighbor):
@@ -153,7 +147,7 @@ Once you have fixed the crashes:
 
 ## 6. Find the logic bug
 
-Now focus on `BuggyLoop.countUpTo(5)`:
+Now focus on `LoopExercises.countUpTo(5)`:
 
 1. What do you **expect** `countUpTo(5)` to return?
 2. What does it actually print?
@@ -168,11 +162,17 @@ You can:
 
 ## 7. Wrap‑up questions (Level 1)
 
-Discuss or write short answers:
+Discuss:
 
 - **What is the difference between a compile‑time error and a runtime exception?**
 - **How does the stack trace help you find the root cause?**
 - **When is print debugging helpful, and when might it be slower than using a debugger?**
 
-You will revisit these same bugs in **Level 2**, but this time with **breakpoints** and **stepping**.
+---
+
+## 8. Before Level 2
+
+You will practice the same program again with the **debugger** in Level 2.
+
+**Before you start Level 2**, comment out your Level 1 fixes in `divide`, `sumFirstThree`, and `countUpTo` (use `//` or `/* */`) so the **buggy behavior returns**. In Level 2 you will uncomment those fixes again after the debugger exercises so you do not repeat the same edits from scratch.
 
