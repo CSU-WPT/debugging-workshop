@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-9a80e6e5.js";
+            window.path_to_searchindex_js = "searchindex-a84dc307.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-a218be1b.js"></script>
@@ -871,13 +871,10 @@
 <h3 id="inputparserjava"><a class="header" href="#inputparserjava"><code>InputParser.java</code></a></h3>
 <pre><code class="language-java">public class InputParser {
 
-    // Parses level from an input string like "level:3"
     public static int parseLevel(String input) {
-        // BUG 1: assumes the string always has "level:" and a valid number
         String[] parts = input.split(":");
-        String numberPart = parts[1]; // can throw if input is wrong
+        String numberPart = parts[1];
 
-        // BUG 2: doesn't trim spaces, can cause NumberFormatException
         return Integer.parseInt(numberPart);
     }
 }
@@ -885,7 +882,6 @@
 <h3 id="levelloaderjava"><a class="header" href="#levelloaderjava"><code>LevelLoader.java</code></a></h3>
 <pre><code class="language-java">public class LevelLoader {
 
-    // Returns an array of enemy counts for the given level.
     public static int[] loadEnemiesForLevel(int level) {
         if (level == 1) {
             return new int[] {2, 3};
@@ -894,16 +890,14 @@
         } else if (level == 3) {
             return new int[] {10};
         } else {
-            // BUG 3: unexpected control flow – returns null instead of empty array
             return null;
         }
     }
 
-    // Computes a "difficulty" score from enemy counts.
     public static int computeDifficulty(int[] enemies) {
+        int enemyCount = (enemies == null) ? 0 : enemies.length;
         int difficulty = 0;
 
-        // BUG 4: off‑by‑one and assumes enemies is never null
         for (int i = 0; i &lt;= enemies.length; i++) {
             difficulty += enemies[i] * (i + 1);
         }
@@ -912,34 +906,36 @@
     }
 }
 </code></pre>
-<h3 id="update-gameappjava"><a class="header" href="#update-gameappjava">Update <code>GameApp.java</code></a></h3>
-<p>Add this method to the bottom of <code>GameApp</code> (inside the class, after <code>printPlayerStats</code>):</p>
+<h3 id="update-mainjava"><a class="header" href="#update-mainjava">Update <code>Main.java</code></a></h3>
+<p>Add this method to the bottom of <code>Main</code> (inside the class, after <code>printPlayerStats</code>):</p>
 <pre><code class="language-java">    private static void demoLevels() {
         System.out.println("=== Level Loader Demo ===");
 
-        String input = "level: 4"; // note the space before 4
+        String input = "level: 4";
         System.out.println("Parsing input: \"" + input + "\"");
 
         int level = InputParser.parseLevel(input);
         System.out.println("Parsed level: " + level);
 
         int[] enemies = LevelLoader.loadEnemiesForLevel(level);
+        int enemyCount = (enemies == null) ? 0 : enemies.length;
         int difficulty = LevelLoader.computeDifficulty(enemies);
 
         System.out.println("Total difficulty for level " + level + ": " + difficulty);
     }
 </code></pre>
+<p><code>enemyCount</code> is there so you can inspect length in the debugger (OnlineGDB does not show array length reliably).</p>
 <p>Then, in <code>main</code>, after the <code>mystery</code> player block, add:</p>
 <pre><code class="language-java">        demoLevels();
 </code></pre>
-<p>Make sure <code>GameApp.java</code> now:</p>
+<p>Make sure <code>Main.java</code> now:</p>
 <ul>
 <li>Uses <code>Player</code>, <code>ScoreUtils</code>, <code>LevelLoader</code>, and <code>InputParser</code>.</li>
 </ul>
 <hr>
 <h2 id="2-run-and-observe-2"><a class="header" href="#2-run-and-observe-2">2. Run and observe</a></h2>
 <ol>
-<li>Open <code>GameApp.java</code>.</li>
+<li>Open <code>Main.java</code>.</li>
 <li>Click <strong>Run</strong>.</li>
 </ol>
 <p><strong>Expected symptoms</strong>:</p>
@@ -963,6 +959,7 @@
 <ol>
 <li>Set a breakpoint at the first line of <code>demoLevels</code>.</li>
 <li>Click <strong>Debug</strong>.</li>
+<li>Click the green <strong>Start</strong> button.</li>
 <li>When paused:
 <ul>
 <li><strong>Step Over</strong> the print statements.</li>
@@ -973,12 +970,7 @@
 <p>Inside <code>parseLevel</code>:</p>
 <ol>
 <li>Inspect <code>input</code>, <code>parts</code>, and <code>numberPart</code>.</li>
-<li>Step line‑by‑line and watch for:
-<ul>
-<li><code>ArrayIndexOutOfBoundsException</code> on <code>parts[1]</code>.</li>
-<li><code>NumberFormatException</code> on <code>Integer.parseInt</code>.</li>
-</ul>
-</li>
+<li>Step line-by-line and identify exactly where and why the first failure happens.</li>
 </ol>
 <p>Once you understand the problem, stop debugging and <strong>fix <code>parseLevel</code></strong> to:</p>
 <ul>
@@ -988,20 +980,22 @@
 </ul>
 <p>Run again with the debugger to confirm the parsing step works.</p>
 <hr>
-<h2 id="4-follow-the-null--offbyone-bugs"><a class="header" href="#4-follow-the-null--offbyone-bugs">4. Follow the null / off‑by‑one bugs</a></h2>
+<h2 id="4-follow-the-next-bug-after-parse-is-fixed"><a class="header" href="#4-follow-the-next-bug-after-parse-is-fixed">4. Follow the next bug after parse is fixed</a></h2>
 <p>Next, set a breakpoint on:</p>
 <pre><code class="language-java">int[] enemies = LevelLoader.loadEnemiesForLevel(level);
 </code></pre>
 <ol>
 <li>Debug again and <strong>Step Into</strong> <code>LevelLoader.loadEnemiesForLevel</code>.</li>
 <li>For the given <code>level</code>, see which branch runs and what it returns.</li>
+<li>Fix the null issue you observe first.</li>
+<li>Re-run Debug and Start.</li>
 <li>Step back to <code>demoLevels</code> and then <strong>Step Into</strong> <code>computeDifficulty</code>.</li>
 </ol>
-<p>Inside <code>computeDifficulty</code>:</p>
+<p>Inside <code>computeDifficulty</code> (only <strong>after</strong> the null-related issue is fixed):</p>
 <ol>
-<li>Watch the values of <code>i</code>, <code>enemies.length</code>, and <code>difficulty</code>.</li>
-<li>See what happens when <code>i</code> equals <code>enemies.length</code>.</li>
-<li>If <code>enemies</code> is null, notice how that changes things.</li>
+<li>Watch the values of <code>i</code>, <strong><code>enemyCount</code></strong> (the local <code>int</code> in <code>computeDifficulty</code>), and <code>difficulty</code>.</li>
+<li>See what happens when <code>i</code> reaches the same value as <code>enemyCount</code>.</li>
+<li>Use that to isolate the loop issue.</li>
 </ol>
 <p>Fix the bugs by:</p>
 <ul>
