@@ -1,18 +1,16 @@
 public class ScoreUtils {
 
-    // BUG 1: incorrect average calculation (logic bug)
     public static double averageScore(int[] scores) {
+        int scoreLength = (scores == null) ? 0 : scores.length;
         int total = 0;
-        for (int i = 0; i < scores.length; i++) {
+        for (int i = 0; i < scoreLength; i++) {
             total += scores[i];
         }
-        // BUG: divides by (length + 1), making average too small
         return (double) total / (scores.length + 1);
     }
 
-    // BUG 2: unexpected control flow when scores is empty
     public static int bestScore(int[] scores) {
-        // BUG: returns 0 even if there are negative scores or empty array
+        int scoreLength = (scores == null) ? 0 : scores.length;
         int best = 0;
         for (int score : scores) {
             if (score > best) {
@@ -22,14 +20,13 @@ public class ScoreUtils {
         return best;
     }
 
-    // BUG 3: bad method arguments / null handling
     public static int totalScore(Player player) {
-        // BUG: does not guard against null player or null scores
+        int[] arr = player.getScores();
+        int scoreLength = (arr == null) ? 0 : arr.length;
         int sum = 0;
-        for (int s : player.getScores()) {
+        for (int s : arr) {
             sum += s;
         }
         return sum;
     }
 }
-
