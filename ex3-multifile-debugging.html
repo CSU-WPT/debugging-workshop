@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-7257bf42.js";
+            window.path_to_searchindex_js = "searchindex-9a80e6e5.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-a218be1b.js"></script>
@@ -178,13 +178,14 @@
 <p><strong>Concepts</strong>: stepping between files, multi‑file logic bugs, call stack, unexpected control flow, bad method arguments.</p>
 <p>We will work with a tiny “scoreboard” app:</p>
 <ul>
-<li><code>GameApp.java</code> – main program that simulates a few players.</li>
+<li><code>Main.java</code> – entry point and helpers (<code>printPlayerStats</code>).</li>
 <li><code>Player.java</code> – represents a player and their scores.</li>
-<li><code>ScoreUtils.java</code> – helper methods with bugs (logic + bad arguments).</li>
+<li><code>ScoreUtils.java</code> – helper methods.</li>
 </ul>
+<p>OnlineGDB expects the class with <code>main</code> to be in <strong><code>Main.java</code></strong> with <code>public class Main</code>. Use a <strong>new</strong> OnlineGDB Java project for Levels 3–4 so you do not have two <code>main</code> methods in one project.</p>
 <hr>
 <h2 id="1-setup-the-files"><a class="header" href="#1-setup-the-files">1. Setup the files</a></h2>
-<p>Create or open these files and paste in the code.</p>
+<p>Create a <strong>new OnlineGDB Java project</strong> for Level 3. Add these files and paste in the code.</p>
 <h3 id="playerjava"><a class="header" href="#playerjava"><code>Player.java</code></a></h3>
 <pre><code class="language-java">public class Player {
     private String name;
@@ -207,19 +208,17 @@
 <h3 id="scoreutilsjava"><a class="header" href="#scoreutilsjava"><code>ScoreUtils.java</code></a></h3>
 <pre><code class="language-java">public class ScoreUtils {
 
-    // BUG 1: incorrect average calculation (logic bug)
     public static double averageScore(int[] scores) {
+        int scoreLength = (scores == null) ? 0 : scores.length;
         int total = 0;
-        for (int i = 0; i &lt; scores.length; i++) {
+        for (int i = 0; i &lt; scoreLength; i++) {
             total += scores[i];
         }
-        // BUG: divides by (length + 1), making average too small
         return (double) total / (scores.length + 1);
     }
 
-    // BUG 2: unexpected control flow when scores is empty
     public static int bestScore(int[] scores) {
-        // BUG: returns 0 even if there are negative scores or empty array
+        int scoreLength = (scores == null) ? 0 : scores.length;
         int best = 0;
         for (int score : scores) {
             if (score &gt; best) {
@@ -229,23 +228,23 @@
         return best;
     }
 
-    // BUG 3: bad method arguments / null handling
     public static int totalScore(Player player) {
-        // BUG: does not guard against null player or null scores
+        int[] arr = player.getScores();
+        int scoreLength = (arr == null) ? 0 : arr.length;
         int sum = 0;
-        for (int s : player.getScores()) {
+        for (int s : arr) {
             sum += s;
         }
         return sum;
     }
 }
 </code></pre>
-<h3 id="gameappjava"><a class="header" href="#gameappjava"><code>GameApp.java</code></a></h3>
-<pre><code class="language-java">public class GameApp {
+<h3 id="mainjava"><a class="header" href="#mainjava"><code>Main.java</code></a></h3>
+<pre><code class="language-java">public class Main {
     public static void main(String[] args) {
         Player alice = new Player("Alice", new int[] {10, 15, 20});
         Player bob = new Player("Bob", new int[] {5, 7});
-        Player charlie = new Player("Charlie", new int[] {}); // empty scores
+        Player charlie = new Player("Charlie", new int[] {});
 
         System.out.println("=== Scoreboard ===");
 
@@ -253,7 +252,6 @@
         printPlayerStats(bob);
         printPlayerStats(charlie);
 
-        // Intentionally pass a null player to show a null‑related bug
         Player mystery = null;
         System.out.println("\nMystery total score (should handle null):");
         int total = ScoreUtils.totalScore(mystery);
@@ -262,28 +260,29 @@
 
     private static void printPlayerStats(Player player) {
         int[] scores = player.getScores();
+        int scoreLength = (scores == null) ? 0 : scores.length;
 
         double avg = ScoreUtils.averageScore(scores);
         int best = ScoreUtils.bestScore(scores);
-        int total = ScoreUtils.totalScore(player);
+        int lineTotal = ScoreUtils.totalScore(player);
 
         System.out.println("Player: " + player.getName());
         System.out.println("  Average: " + avg);
         System.out.println("  Best: " + best);
-        System.out.println("  Total: " + total);
+        System.out.println("  Total: " + lineTotal);
         System.out.println();
     }
 }
 </code></pre>
 <p>Make sure:</p>
 <ul>
-<li>All three files are saved.</li>
-<li><code>GameApp.java</code> contains a <code>main</code> method and will be your entry point.</li>
+<li>All files are saved.</li>
+<li>Only <strong><code>Main.java</code></strong> contains <code>public static void main</code>.</li>
 </ul>
 <hr>
 <h2 id="2-run-and-observe"><a class="header" href="#2-run-and-observe">2. Run and observe</a></h2>
 <ol>
-<li>Open <code>GameApp.java</code>.</li>
+<li>Open <code>Main.java</code>.</li>
 <li>Click <strong>Run</strong>.</li>
 </ol>
 <p><strong>Expected symptoms</strong>:</p>
@@ -305,8 +304,8 @@
 <h2 id="3-step-across-files-with-the-debugger"><a class="header" href="#3-step-across-files-with-the-debugger">3. Step across files with the debugger</a></h2>
 <p>Now use the debugger to see <strong>how control flows</strong> between files.</p>
 <ol>
-<li>Set a breakpoint on the first line of <code>main</code> in <code>GameApp</code>.</li>
-<li>Click <strong>Debug</strong>.</li>
+<li>Set a breakpoint on the first line of <code>main</code> in <code>Main</code>.</li>
+<li>Click <strong>Debug</strong>, then the green <strong>Start</strong> button.</li>
 <li>When paused, click <strong>Step Over</strong> a few times to:
 <ul>
 <li>Create the players.</li>
@@ -319,7 +318,7 @@
 <ol>
 <li>Step until you reach <code>double avg = ScoreUtils.averageScore(scores);</code>.</li>
 <li>Use <strong>Step Into</strong> to jump into <code>ScoreUtils.averageScore</code>.</li>
-<li>Watch <code>scores.length</code>, <code>total</code>, and the returned value in the Variables panel.</li>
+<li>In the Variables panel, watch <strong><code>scoreLength</code></strong>, <code>total</code>, and the return value (OnlineGDB does not show array contents reliably).</li>
 </ol>
 <p>Answer:</p>
 <ul>
@@ -331,9 +330,10 @@
 <p>Trigger the <code>NullPointerException</code> on <code>mystery</code>:</p>
 <ol>
 <li>Set a breakpoint on the line <code>int total = ScoreUtils.totalScore(mystery);</code> in <code>main</code>.</li>
-<li>Start <strong>Debug</strong> and let execution run to that breakpoint.</li>
-<li><strong>Step Into</strong> to enter <code>ScoreUtils.totalScore</code>.</li>
-<li>When the exception occurs, look at:
+<li>Click <strong>Debug</strong>, then the green <strong>Start</strong> button.</li>
+<li>Click <strong>Continue</strong> exactly <strong>3</strong> times so execution moves past the three <code>printPlayerStats</code> calls and stops on the <code>mystery</code> line.</li>
+<li>When stopped there, click <strong>Step Into</strong> to enter <code>ScoreUtils.totalScore</code>.</li>
+<li>Identify the exact line where the exception occurs, then look at:
 <ul>
 <li>The <strong>current line</strong>.</li>
 <li>The <strong>Call Stack</strong> panel.</li>
@@ -366,7 +366,7 @@
 <p>Use breakpoints and stepping to:</p>
 <ol>
 <li>Pause inside <code>bestScore</code>.</li>
-<li>Watch how <code>best</code> changes as you loop through <code>scores</code>.</li>
+<li>Watch <strong><code>scoreLength</code></strong> and how <code>best</code> changes as you loop through <code>scores</code>.</li>
 <li>Decide what should happen when <code>scores</code> is empty.</li>
 </ol>
 <p>Update <code>bestScore</code> to:</p>
@@ -380,7 +380,6 @@
 </ul>
 <hr>
 <h2 id="6-reflection-level-3"><a class="header" href="#6-reflection-level-3">6. Reflection (Level 3)</a></h2>
-<p>Discuss or write:</p>
 <ul>
 <li>How did stepping <strong>between files</strong> help you understand the bugs?</li>
 <li>When reading a stack trace, how do you choose which frame to investigate first?</li>
