@@ -1,4 +1,4 @@
-# Start Guide (≈ 5 minutes)
+# Start Guide (≈ 5-10 minutes)
 
 This workshop uses **OnlineGDB** - a free, modern, browser-based IDE that supports **multiple Java files** and a Java debugger with no paywall.
 
