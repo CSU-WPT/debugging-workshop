@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-ec4bfa28.js";
+            window.path_to_searchindex_js = "searchindex-a2eff9b0.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-a218be1b.js"></script>
@@ -175,6 +175,25 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+<p>This book supports a 50-minute, hands-on Java debugging workshop for students who are still building debugging confidence.</p>
+<p>You will use a small multi-file Java program and debug it in progressive levels. Each level focuses on practical workflow: run, observe, investigate, fix, re-run.</p>
+<p>By the end of the workshop, students should be able to:</p>
+<ul>
+<li>Distinguish compile-time, runtime, and logic bugs.</li>
+<li>Read exception messages and stack traces to find root causes.</li>
+<li>Use breakpoints, step controls, variable inspection, and call stack navigation.</li>
+<li>Debug across multiple files and method calls.</li>
+<li>Fix one bug while checking that other behavior still works.</li>
+</ul>
+<p>Workshop flow:</p>
+<ol>
+<li><strong>Start Guide</strong>: set up OnlineGDB and debugging controls.</li>
+<li><strong>Workshop Overview</strong>: timing for each section.</li>
+<li><strong>Level 1–4</strong>: progressive debugging exercises.</li>
+<li><strong>Solutions</strong>: standby reference for instructor/students.</li>
+</ol>
+<p>Starter source files for copy/paste live under <code>code/levels-1-2/</code> (Levels 1–2) and <code>code/levels-3-4/</code> (Levels 3–4). Each folder is its own OnlineGDB project; both use <code>Main.java</code> as the entry point.</p>
+<p>This is designed to be active. Students should spend most of the session debugging code, not just reading.</p>
 
                     </main>
 
