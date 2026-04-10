@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-b15a83f9.js";
+            window.path_to_searchindex_js = "searchindex-5ec3cb1c.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-a218be1b.js"></script>
@@ -176,40 +176,34 @@
                     <main>
                         <h1 id="level-1--reading-errors--10-minutes"><a class="header" href="#level-1--reading-errors--10-minutes">Level 1 – Reading Errors (≈ 10 minutes)</a></h1>
 <p><strong>Concepts</strong>: compile‑time vs runtime errors, error messages, stack traces, print debugging vs debugger.</p>
-<p>We will start with two small programs:</p>
+<p>We will start with two small files:</p>
 <ul>
-<li><code>BuggyCalculator.java</code> – has compile‑time and runtime issues.</li>
-<li><code>BuggyLoop.java</code> – has a logic bug (off‑by‑one).</li>
+<li><code>CalculatorExercises.java</code></li>
+<li><code>LoopExercises.java</code></li>
 </ul>
 <hr>
 <h2 id="1-setup-the-files"><a class="header" href="#1-setup-the-files">1. Setup the files</a></h2>
 <p>Create or open these files in OnlineGDB and paste in the code below.</p>
-<h3 id="buggycalculatorjava"><a class="header" href="#buggycalculatorjava"><code>BuggyCalculator.java</code></a></h3>
-<pre><code class="language-java">public class BuggyCalculator {
-
-    // Intentionally buggy method: sometimes crashes, sometimes returns wrong result
+<h3 id="calculatorexercisesjava"><a class="header" href="#calculatorexercisesjava"><code>CalculatorExercises.java</code></a></h3>
+<pre><code class="language-java">public class CalculatorExercises {
     public static int divide(int a, int b) {
-        // BUG 1: possible division by zero (runtime error)
         return a / b;
     }
 
     public static int sumFirstThree(int[] numbers) {
-        // BUG 2: potential ArrayIndexOutOfBoundsException
+        int numberCount = (numbers == null) ? 0 : numbers.length;
         int total = 0;
-        for (int i = 0; i &lt;= 3; i++) { // off‑by‑one AND assumes at least 4 elements
+        for (int i = 0; i &lt;= 3; i++) {
             total += numbers[i];
         }
         return total;
     }
 }
 </code></pre>
-<h3 id="buggyloopjava"><a class="header" href="#buggyloopjava"><code>BuggyLoop.java</code></a></h3>
-<pre><code class="language-java">public class BuggyLoop {
-
-    // Intentionally buggy method: tries to count from 1 to n
+<h3 id="loopexercisesjava"><a class="header" href="#loopexercisesjava"><code>LoopExercises.java</code></a></h3>
+<pre><code class="language-java">public class LoopExercises {
     public static int countUpTo(int n) {
         int count = 0;
-        // BUG 3: incorrect loop condition, never reaches n
         for (int i = 1; i &lt; n; i++) {
             count++;
         }
@@ -223,18 +217,18 @@
     public static void main(String[] args) {
         // Example 1: division
         System.out.println("Trying division...");
-        int result = BuggyCalculator.divide(10, 0);
+        int result = CalculatorExercises.divide(10, 0);
         System.out.println("Result: " + result);
 
         // Example 2: sum first three
         int[] nums = {1, 2};
         System.out.println("Trying sumFirstThree...");
-        int sum = BuggyCalculator.sumFirstThree(nums);
+        int sum = CalculatorExercises.sumFirstThree(nums);
         System.out.println("Sum: " + sum);
 
         // Example 3: loop
         System.out.println("Trying countUpTo(5)...");
-        int count = BuggyLoop.countUpTo(5);
+        int count = LoopExercises.countUpTo(5);
         System.out.println("Count: " + count);
     }
 }
@@ -252,7 +246,7 @@
 <li>You should see a <strong>stack trace</strong> in the console mentioning:
 <ul>
 <li>The type of exception.</li>
-<li>The line number in <code>BuggyCalculator.java</code>.</li>
+<li>The line number in <code>CalculatorExercises.java</code>.</li>
 <li>The line number in <code>Main.java</code> where it was called.</li>
 </ul>
 </li>
@@ -270,7 +264,7 @@
 <li>Find the <strong>message</strong> (e.g., <code>/ by zero</code>).</li>
 <li>Find the <strong>topmost</strong> line from <strong>your code</strong> in the stack trace:
 <ul>
-<li>It should show <code>BuggyCalculator.divide</code> with a line number.</li>
+<li>It should show <code>CalculatorExercises.divide</code> with a line number.</li>
 <li>It should show <code>Main.main</code> with a line number.</li>
 </ul>
 </li>
@@ -313,7 +307,7 @@
 </ol>
 <hr>
 <h2 id="6-find-the-logic-bug"><a class="header" href="#6-find-the-logic-bug">6. Find the logic bug</a></h2>
-<p>Now focus on <code>BuggyLoop.countUpTo(5)</code>:</p>
+<p>Now focus on <code>LoopExercises.countUpTo(5)</code>:</p>
 <ol>
 <li>What do you <strong>expect</strong> <code>countUpTo(5)</code> to return?</li>
 <li>What does it actually print?</li>
@@ -326,13 +320,16 @@
 </ul>
 <hr>
 <h2 id="7-wrapup-questions-level-1"><a class="header" href="#7-wrapup-questions-level-1">7. Wrap‑up questions (Level 1)</a></h2>
-<p>Discuss or write short answers:</p>
+<p>Discuss:</p>
 <ul>
 <li><strong>What is the difference between a compile‑time error and a runtime exception?</strong></li>
 <li><strong>How does the stack trace help you find the root cause?</strong></li>
 <li><strong>When is print debugging helpful, and when might it be slower than using a debugger?</strong></li>
 </ul>
-<p>You will revisit these same bugs in <strong>Level 2</strong>, but this time with <strong>breakpoints</strong> and <strong>stepping</strong>.</p>
+<hr>
+<h2 id="8-before-level-2"><a class="header" href="#8-before-level-2">8. Before Level 2</a></h2>
+<p>You will practice the same program again with the <strong>debugger</strong> in Level 2.</p>
+<p><strong>Before you start Level 2</strong>, comment out your Level 1 fixes in <code>divide</code>, <code>sumFirstThree</code>, and <code>countUpTo</code> (use <code>//</code> or <code>/* */</code>) so the <strong>buggy behavior returns</strong>. In Level 2 you will uncomment those fixes again after the debugger exercises so you do not repeat the same edits from scratch.</p>
 
                     </main>
 
