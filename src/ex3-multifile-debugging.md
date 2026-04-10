@@ -4,15 +4,17 @@
 
 We will work with a tiny “scoreboard” app:
 
-- `GameApp.java` – main program that simulates a few players.
+- `Main.java` – entry point and helpers (`printPlayerStats`).
 - `Player.java` – represents a player and their scores.
-- `ScoreUtils.java` – helper methods with bugs (logic + bad arguments).
+- `ScoreUtils.java` – helper methods.
+
+OnlineGDB expects the class with `main` to be in **`Main.java`** with `public class Main`. Use a **new** OnlineGDB Java project for Levels 3–4 so you do not have two `main` methods in one project.
 
 ---
 
 ## 1. Setup the files
 
-Create or open these files and paste in the code.
+Create a **new OnlineGDB Java project** for Level 3. Add these files and paste in the code.
 
 ### `Player.java`
 
@@ -41,19 +43,17 @@ public class Player {
 ```java
 public class ScoreUtils {
 
-    // BUG 1: incorrect average calculation (logic bug)
     public static double averageScore(int[] scores) {
+        int scoreLength = (scores == null) ? 0 : scores.length;
         int total = 0;
-        for (int i = 0; i < scores.length; i++) {
+        for (int i = 0; i < scoreLength; i++) {
             total += scores[i];
         }
-        // BUG: divides by (length + 1), making average too small
         return (double) total / (scores.length + 1);
     }
 
-    // BUG 2: unexpected control flow when scores is empty
     public static int bestScore(int[] scores) {
-        // BUG: returns 0 even if there are negative scores or empty array
+        int scoreLength = (scores == null) ? 0 : scores.length;
         int best = 0;
         for (int score : scores) {
             if (score > best) {
@@ -63,11 +63,11 @@ public class ScoreUtils {
         return best;
     }
 
-    // BUG 3: bad method arguments / null handling
     public static int totalScore(Player player) {
-        // BUG: does not guard against null player or null scores
+        int[] arr = player.getScores();
+        int scoreLength = (arr == null) ? 0 : arr.length;
         int sum = 0;
-        for (int s : player.getScores()) {
+        for (int s : arr) {
             sum += s;
         }
         return sum;
@@ -75,14 +75,14 @@ public class ScoreUtils {
 }
 ```
 
-### `GameApp.java`
+### `Main.java`
 
 ```java
-public class GameApp {
+public class Main {
     public static void main(String[] args) {
         Player alice = new Player("Alice", new int[] {10, 15, 20});
         Player bob = new Player("Bob", new int[] {5, 7});
-        Player charlie = new Player("Charlie", new int[] {}); // empty scores
+        Player charlie = new Player("Charlie", new int[] {});
 
         System.out.println("=== Scoreboard ===");
 
@@ -90,7 +90,6 @@ public class GameApp {
         printPlayerStats(bob);
         printPlayerStats(charlie);
 
-        // Intentionally pass a null player to show a null‑related bug
         Player mystery = null;
         System.out.println("\nMystery total score (should handle null):");
         int total = ScoreUtils.totalScore(mystery);
@@ -99,15 +98,16 @@ public class GameApp {
 
     private static void printPlayerStats(Player player) {
         int[] scores = player.getScores();
+        int scoreLength = (scores == null) ? 0 : scores.length;
 
         double avg = ScoreUtils.averageScore(scores);
         int best = ScoreUtils.bestScore(scores);
-        int total = ScoreUtils.totalScore(player);
+        int lineTotal = ScoreUtils.totalScore(player);
 
         System.out.println("Player: " + player.getName());
         System.out.println("  Average: " + avg);
         System.out.println("  Best: " + best);
-        System.out.println("  Total: " + total);
+        System.out.println("  Total: " + lineTotal);
         System.out.println();
     }
 }
@@ -115,14 +115,14 @@ public class GameApp {
 
 Make sure:
 
-- All three files are saved.
-- `GameApp.java` contains a `main` method and will be your entry point.
+- All files are saved.
+- Only **`Main.java`** contains `public static void main`.
 
 ---
 
 ## 2. Run and observe
 
-1. Open `GameApp.java`.
+1. Open `Main.java`.
 2. Click **Run**.
 
 **Expected symptoms**:
@@ -143,8 +143,8 @@ Focus on:
 
 Now use the debugger to see **how control flows** between files.
 
-1. Set a breakpoint on the first line of `main` in `GameApp`.
-2. Click **Debug**.
+1. Set a breakpoint on the first line of `main` in `Main`.
+2. Click **Debug**, then the green **Start** button.
 3. When paused, click **Step Over** a few times to:
    - Create the players.
    - Reach the first call to `printPlayerStats`.
@@ -154,7 +154,7 @@ You should now be in `printPlayerStats`:
 
 1. Step until you reach `double avg = ScoreUtils.averageScore(scores);`.
 2. Use **Step Into** to jump into `ScoreUtils.averageScore`.
-3. Watch `scores.length`, `total`, and the returned value in the Variables panel.
+3. In the Variables panel, watch **`scoreLength`**, `total`, and the return value (OnlineGDB does not show array contents reliably).
 
 Answer:
 
@@ -168,9 +168,10 @@ Answer:
 Trigger the `NullPointerException` on `mystery`:
 
 1. Set a breakpoint on the line `int total = ScoreUtils.totalScore(mystery);` in `main`.
-2. Start **Debug** and let execution run to that breakpoint.
-3. **Step Into** to enter `ScoreUtils.totalScore`.
-4. When the exception occurs, look at:
+2. Click **Debug**, then the green **Start** button.
+3. Click **Continue** exactly **3** times so execution moves past the three `printPlayerStats` calls and stops on the `mystery` line.
+4. When stopped there, click **Step Into** to enter `ScoreUtils.totalScore`.
+5. Identify the exact line where the exception occurs, then look at:
    - The **current line**.
    - The **Call Stack** panel.
 
@@ -203,7 +204,7 @@ This fails when:
 Use breakpoints and stepping to:
 
 1. Pause inside `bestScore`.
-2. Watch how `best` changes as you loop through `scores`.
+2. Watch **`scoreLength`** and how `best` changes as you loop through `scores`.
 3. Decide what should happen when `scores` is empty.
 
 Update `bestScore` to:
@@ -219,11 +220,8 @@ Re‑run the program and check:
 
 ## 6. Reflection (Level 3)
 
-Discuss or write:
-
 - How did stepping **between files** help you understand the bugs?
 - When reading a stack trace, how do you choose which frame to investigate first?
 - How can you prevent null‑related bugs like the one in `totalScore`?
 
 In **Level 4**, you will tackle a more **layered scenario** that combines several types of bugs.
-
