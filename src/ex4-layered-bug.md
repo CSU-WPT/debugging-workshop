@@ -28,13 +28,10 @@ We’ll add two more files:
 ```java
 public class InputParser {
 
-    // Parses level from an input string like "level:3"
     public static int parseLevel(String input) {
-        // BUG 1: assumes the string always has "level:" and a valid number
         String[] parts = input.split(":");
-        String numberPart = parts[1]; // can throw if input is wrong
+        String numberPart = parts[1];
 
-        // BUG 2: doesn't trim spaces, can cause NumberFormatException
         return Integer.parseInt(numberPart);
     }
 }
@@ -45,7 +42,6 @@ public class InputParser {
 ```java
 public class LevelLoader {
 
-    // Returns an array of enemy counts for the given level.
     public static int[] loadEnemiesForLevel(int level) {
         if (level == 1) {
             return new int[] {2, 3};
@@ -54,16 +50,14 @@ public class LevelLoader {
         } else if (level == 3) {
             return new int[] {10};
         } else {
-            // BUG 3: unexpected control flow – returns null instead of empty array
             return null;
         }
     }
 
-    // Computes a "difficulty" score from enemy counts.
     public static int computeDifficulty(int[] enemies) {
+        int enemyCount = (enemies == null) ? 0 : enemies.length;
         int difficulty = 0;
 
-        // BUG 4: off‑by‑one and assumes enemies is never null
         for (int i = 0; i <= enemies.length; i++) {
             difficulty += enemies[i] * (i + 1);
         }
@@ -73,26 +67,29 @@ public class LevelLoader {
 }
 ```
 
-### Update `GameApp.java`
+### Update `Main.java`
 
-Add this method to the bottom of `GameApp` (inside the class, after `printPlayerStats`):
+Add this method to the bottom of `Main` (inside the class, after `printPlayerStats`):
 
 ```java
     private static void demoLevels() {
         System.out.println("=== Level Loader Demo ===");
 
-        String input = "level: 4"; // note the space before 4
+        String input = "level: 4";
         System.out.println("Parsing input: \"" + input + "\"");
 
         int level = InputParser.parseLevel(input);
         System.out.println("Parsed level: " + level);
 
         int[] enemies = LevelLoader.loadEnemiesForLevel(level);
+        int enemyCount = (enemies == null) ? 0 : enemies.length;
         int difficulty = LevelLoader.computeDifficulty(enemies);
 
         System.out.println("Total difficulty for level " + level + ": " + difficulty);
     }
 ```
+
+`enemyCount` is there so you can inspect length in the debugger (OnlineGDB does not show array length reliably).
 
 Then, in `main`, after the `mystery` player block, add:
 
@@ -100,7 +97,7 @@ Then, in `main`, after the `mystery` player block, add:
         demoLevels();
 ```
 
-Make sure `GameApp.java` now:
+Make sure `Main.java` now:
 
 - Uses `Player`, `ScoreUtils`, `LevelLoader`, and `InputParser`.
 
@@ -108,7 +105,7 @@ Make sure `GameApp.java` now:
 
 ## 2. Run and observe
 
-1. Open `GameApp.java`.
+1. Open `Main.java`.
 2. Click **Run**.
 
 **Expected symptoms**:
@@ -131,16 +128,15 @@ Use the debugger to trace the whole path:
 
 1. Set a breakpoint at the first line of `demoLevels`.
 2. Click **Debug**.
-3. When paused:
+3. Click the green **Start** button.
+4. When paused:
    - **Step Over** the print statements.
    - Use **Step Into** on `InputParser.parseLevel(input)`.
 
 Inside `parseLevel`:
 
 1. Inspect `input`, `parts`, and `numberPart`.
-2. Step line‑by‑line and watch for:
-   - `ArrayIndexOutOfBoundsException` on `parts[1]`.
-   - `NumberFormatException` on `Integer.parseInt`.
+2. Step line-by-line and identify exactly where and why the first failure happens.
 
 Once you understand the problem, stop debugging and **fix `parseLevel`** to:
 
@@ -152,7 +148,7 @@ Run again with the debugger to confirm the parsing step works.
 
 ---
 
-## 4. Follow the null / off‑by‑one bugs
+## 4. Follow the next bug after parse is fixed
 
 Next, set a breakpoint on:
 
@@ -162,13 +158,15 @@ int[] enemies = LevelLoader.loadEnemiesForLevel(level);
 
 1. Debug again and **Step Into** `LevelLoader.loadEnemiesForLevel`.
 2. For the given `level`, see which branch runs and what it returns.
-3. Step back to `demoLevels` and then **Step Into** `computeDifficulty`.
+3. Fix the null issue you observe first.
+4. Re-run Debug and Start.
+5. Step back to `demoLevels` and then **Step Into** `computeDifficulty`.
 
-Inside `computeDifficulty`:
+Inside `computeDifficulty` (only **after** the null-related issue is fixed):
 
-1. Watch the values of `i`, `enemies.length`, and `difficulty`.
-2. See what happens when `i` equals `enemies.length`.
-3. If `enemies` is null, notice how that changes things.
+1. Watch the values of `i`, **`enemyCount`** (the local `int` in `computeDifficulty`), and `difficulty`.
+2. See what happens when `i` reaches the same value as `enemyCount`.
+3. Use that to isolate the loop issue.
 
 Fix the bugs by:
 
