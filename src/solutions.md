@@ -11,7 +11,7 @@ Your exact solutions may differ slightly as long as they:
 
 ## Level 1 – Reading Errors
 
-### `BuggyCalculator.divide`
+### `CalculatorExercises.divide`
 
 One reasonable fix:
 
@@ -26,7 +26,7 @@ public static int divide(int a, int b) {
 }
 ```
 
-### `BuggyCalculator.sumFirstThree`
+### `CalculatorExercises.sumFirstThree`
 
 Handle short arrays safely:
 
@@ -47,7 +47,7 @@ public static int sumFirstThree(int[] numbers) {
 }
 ```
 
-### `BuggyLoop.countUpTo`
+### `LoopExercises.countUpTo`
 
 If the intent is to count how many numbers from 1 to `n` (inclusive):
 
