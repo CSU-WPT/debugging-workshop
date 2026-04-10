@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-c6701f32.js";
+            window.path_to_searchindex_js = "searchindex-15dd0483.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-a218be1b.js"></script>
@@ -178,40 +178,44 @@
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="start-guide--5-minutes"><a class="header" href="#start-guide--5-minutes">Start Guide (≈ 5 minutes)</a></h1>
-<p>This workshop uses <strong>OnlineGDB</strong> – a free, modern, browser‑based IDE that supports <strong>multiple Java files</strong> and a full <strong>debugger</strong> (breakpoints, stepping, variable watch, call stack) with no paywall.</p>
+<p>This workshop uses <strong>OnlineGDB</strong> - a free, modern, browser-based IDE that supports <strong>multiple Java files</strong> and a Java debugger with no paywall.</p>
 <p>You can follow these steps on any computer with a web browser.</p>
 <hr>
 <h2 id="1-open-the-ide"><a class="header" href="#1-open-the-ide">1. Open the IDE</a></h2>
 <ol>
 <li>Open your browser and go to <code>https://www.onlinegdb.com/online_java_compiler</code>.</li>
-<li>You should see a Java file named <code>Main.java</code> in the main editor and a <strong>Run</strong> and <strong>Debug</strong> button at the top.</li>
+<li>You should see a Java file named <code>Main.java</code> in the editor and a <strong>Run</strong> and <strong>Debug</strong> button near the top.</li>
 </ol>
 <p><strong>Instructor note (1 min)</strong>: Make sure everyone is on the site and sees the Java editor.</p>
 <hr>
 <h2 id="2-create-the-project-layout"><a class="header" href="#2-create-the-project-layout">2. Create the project layout</a></h2>
-<p>We will work with several small Java files.</p>
+<p>For <strong>Project A</strong> (Levels 1-2), create only these files:</p>
 <ol>
-<li>In the <strong>File</strong> panel (left side), click <strong>New File</strong>.</li>
-<li>Name the file exactly: <code>BuggyCalculator.java</code>.</li>
+<li>Click <strong>New File</strong>.</li>
+<li>Name the file exactly: <code>CalculatorExercises.java</code>.</li>
 <li>Repeat and create these files as well:
 <ul>
-<li><code>BuggyLoop.java</code></li>
-<li><code>GameApp.java</code></li>
-<li><code>Player.java</code></li>
-<li><code>ScoreUtils.java</code></li>
-<li><code>LevelLoader.java</code></li>
-<li><code>InputParser.java</code></li>
+<li><code>LoopExercises.java</code></li>
 </ul>
 </li>
 <li>Keep the default <code>Main.java</code> file for now – we will replace its contents later.</li>
 </ol>
 <p>OnlineGDB saves these files in the temporary project in your browser.</p>
+<p>For <strong>Project B</strong> (Levels 3-4), create a <strong>new</strong> OnlineGDB Java project. OnlineGDB expects the program entry point in a file named <strong><code>Main.java</code></strong> with <code>public class Main</code>.</p>
+<p>Add these files:</p>
+<ul>
+<li><code>Main.java</code></li>
+<li><code>Player.java</code></li>
+<li><code>ScoreUtils.java</code></li>
+<li><code>LevelLoader.java</code></li>
+<li><code>InputParser.java</code></li>
+</ul>
 <hr>
 <h2 id="3-how-to-paste-in-the-starter-code"><a class="header" href="#3-how-to-paste-in-the-starter-code">3. How to paste in the starter code</a></h2>
 <p>Each exercise chapter in this workshop includes <strong>copy‑paste‑ready</strong> code blocks.</p>
 <p>For each file:</p>
 <ol>
-<li>Click the file name in the left panel (for example <code>BuggyCalculator.java</code>).</li>
+<li>Click the file tab at the top (for example <code>CalculatorExercises.java</code>).</li>
 <li>Select all existing code in the editor and delete it.</li>
 <li>Copy the corresponding code block from the workshop and paste it into the editor.</li>
 <li>Press <strong>Ctrl+S</strong> (or use the <strong>Save</strong> icon) to save that file.</li>
@@ -219,7 +223,12 @@
 <p><strong>Tip</strong>: Double‑check the file name at the top of the editor matches the heading above the code block in the book.</p>
 <hr>
 <h2 id="4-running-the-program"><a class="header" href="#4-running-the-program">4. Running the program</a></h2>
-<p>OnlineGDB runs whichever file contains the <code>public static void main(String[] args)</code> method.<br>In this workshop, <strong><code>Main.java</code></strong> (or <strong><code>GameApp.java</code></strong>, when specified) will be the entry point.</p>
+<p>OnlineGDB runs the file that contains <code>public static void main(String[] args)</code>.
+In this workshop:</p>
+<ul>
+<li>Project A (Levels 1-2) uses <code>Main.java</code>.</li>
+<li>Project B (Levels 3-4) also uses <code>Main.java</code> (in a separate OnlineGDB project).</li>
+</ul>
 <p>To run:</p>
 <ol>
 <li>Make sure the correct main file (for example <code>Main.java</code>) is open in the editor.</li>
@@ -237,20 +246,21 @@
 <h2 id="5-starting-a-debugging-session"><a class="header" href="#5-starting-a-debugging-session">5. Starting a debugging session</a></h2>
 <p>To start the debugger in OnlineGDB:</p>
 <ol>
-<li>Open the file that contains <code>main</code> (for example <code>Main.java</code> or <code>GameApp.java</code>).</li>
+<li>Open the file that contains <code>main</code> in your current project.</li>
 <li>Click in the <strong>gutter</strong> (the narrow column to the left of the line numbers) next to the line where you want execution to pause.
 <ul>
-<li>A <strong>red dot</strong> appears – this is a <strong>breakpoint</strong>.</li>
+<li>A <strong>red dot</strong> appears - this is a <strong>breakpoint</strong>.</li>
 </ul>
 </li>
 <li>Click the <strong>Debug</strong> button at the top.</li>
-<li>When the program hits a breakpoint, it will pause and highlight the current line.</li>
+<li>Then click the green <strong>Start</strong> button to begin execution.</li>
+<li>When execution reaches a breakpoint, the debugger pauses at that point.</li>
 </ol>
 <hr>
 <h2 id="6-stepping-through-code"><a class="header" href="#6-stepping-through-code">6. Stepping through code</a></h2>
-<p>When the program is paused on a breakpoint, use the toolbar buttons above the editor:</p>
+<p>When the program is paused on a breakpoint, use the debugger controls near the console area (not above the editor, in OnlineGDB):</p>
 <ul>
-<li><strong>Step Over</strong>: runs the current line and stops at the next line in the same method.
+<li><strong>Step Over</strong>: runs the current line and stops at the next line <strong>in the same method</strong>.
 <ul>
 <li>Use this when you do <strong>not</strong> need to go inside a method call.</li>
 </ul>
@@ -268,7 +278,7 @@
 </ul>
 <p>You can also press <strong>Continue</strong> to run until the next breakpoint or program exit.</p>
 <hr>
-<h2 id="7-inspecting-variables-watches-and-call-stack"><a class="header" href="#7-inspecting-variables-watches-and-call-stack">7. Inspecting variables, watches, and call stack</a></h2>
+<h2 id="7-inspecting-variables-and-call-stack"><a class="header" href="#7-inspecting-variables-and-call-stack">7. Inspecting variables and call stack</a></h2>
 <p>When stopped on a breakpoint:</p>
 <ul>
 <li><strong>Variables / Locals panel</strong>:
@@ -277,11 +287,9 @@
 <li>Expands objects so you can see their fields (for example, <code>player.name</code>, <code>player.score</code>).</li>
 </ul>
 </li>
-<li><strong>Watch expressions</strong>:
-<ul>
-<li>Use the <strong>Watch</strong> panel (if visible) to add an expression (e.g., <code>scores.size()</code>) and track its value as you step.</li>
 </ul>
-</li>
+<p><strong>Arrays in OnlineGDB</strong>: the debugger often does <strong>not</strong> show array elements or <code>array.length</code> in a useful way. When you need to inspect a length or a derived value during debugging, assign it to a <strong>local <code>int</code></strong> (for example <code>int scoreLength = scores == null ? 0 : scores.length;</code>) and watch that variable. This workshop’s starter code uses that pattern where it matters.</p>
+<ul>
 <li><strong>Call stack</strong>:
 <ul>
 <li>Shows the chain of method calls that led to the current line.</li>
@@ -295,13 +303,18 @@
 </ul>
 </li>
 </ul>
-<p>You will use all of these while working through the Levels in this workshop.</p>
+<p>Note on watch expressions:</p>
+<ul>
+<li>In OnlineGDB, watch behavior is limited.</li>
+<li>In IDEs like IntelliJ IDEA or VS Code, watch expressions are more reliable for tracking values such as <code>scores.length</code> or <code>i</code>.</li>
+</ul>
 <hr>
 <h2 id="8-if-something-goes-wrong"><a class="header" href="#8-if-something-goes-wrong">8. If something goes wrong</a></h2>
 <p>If the debugger seems stuck or weird:</p>
 <ol>
 <li>Click <strong>Stop</strong> to end the current run.</li>
 <li>Re‑click <strong>Debug</strong>.</li>
+<li>Click the green <strong>Start</strong> button again.</li>
 <li>Make sure your breakpoints are on executable lines (not on blank lines or comments).</li>
 </ol>
 <p>If the code doesn’t look like this book:</p>
