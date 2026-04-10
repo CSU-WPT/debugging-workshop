@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-f9d30b69.js";
+            window.path_to_searchindex_js = "searchindex-c6701f32.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-a218be1b.js"></script>
@@ -183,7 +183,7 @@
 </ul>
 <hr>
 <h2 id="level-1--reading-errors"><a class="header" href="#level-1--reading-errors">Level 1 – Reading Errors</a></h2>
-<h3 id="buggycalculatordivide"><a class="header" href="#buggycalculatordivide"><code>BuggyCalculator.divide</code></a></h3>
+<h3 id="calculatorexercisesdivide"><a class="header" href="#calculatorexercisesdivide"><code>CalculatorExercises.divide</code></a></h3>
 <p>One reasonable fix:</p>
 <pre><code class="language-java">public static int divide(int a, int b) {
     if (b == 0) {
@@ -194,7 +194,7 @@
     return a / b;
 }
 </code></pre>
-<h3 id="buggycalculatorsumfirstthree"><a class="header" href="#buggycalculatorsumfirstthree"><code>BuggyCalculator.sumFirstThree</code></a></h3>
+<h3 id="calculatorexercisessumfirstthree"><a class="header" href="#calculatorexercisessumfirstthree"><code>CalculatorExercises.sumFirstThree</code></a></h3>
 <p>Handle short arrays safely:</p>
 <pre><code class="language-java">public static int sumFirstThree(int[] numbers) {
     if (numbers == null || numbers.length == 0) {
@@ -211,7 +211,7 @@
     return total;
 }
 </code></pre>
-<h3 id="buggyloopcountupto"><a class="header" href="#buggyloopcountupto"><code>BuggyLoop.countUpTo</code></a></h3>
+<h3 id="loopexercisescountupto"><a class="header" href="#loopexercisescountupto"><code>LoopExercises.countUpTo</code></a></h3>
 <p>If the intent is to count how many numbers from 1 to <code>n</code> (inclusive):</p>
 <pre><code class="language-java">public static int countUpTo(int n) {
     int count = 0;
